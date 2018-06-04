@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DO NOT TRANSLATE THIS DOCUMENT-->
+<resources>
+    <string name="tag_nav_menu_icon">nav_menu_icon</string>
+    <string name="tag_nav_menu_text">nav_menu_text</string>
+    <string name="tag_nav_menu_item">nav_menu_item</string>
+    <string name="tag_nav_menu_item_openable">nav_menu_item_openable</string>
+    <string name="tag_amount_input_cell">amount_input_cell</string>
+    <string name="tag_amount_input_cell_second">amount_input_cell_second</string>
+</resources>

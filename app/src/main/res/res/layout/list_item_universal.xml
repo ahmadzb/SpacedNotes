@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_universal_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/universal_list_partial_height"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/list_item_universal_header"
+        layout="@layout/list_header_universal"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/list_item_universal_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_marginStart="@dimen/padding_list_sideways"
+        android:layout_marginEnd="@dimen/padding_list_sideways">
+
+        <TextView
+            android:id="@+id/list_item_universal_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/ic_bobble"
+            android:gravity="center"
+            android:text="ت"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_item_universal_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="تیر"
+                android:textColor="@color/colorText" />
+
+            <TextView
+                android:id="@+id/list_item_universal_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="بیشتر"
+                android:textColor="@color/colorTextDetail" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/list_item_universal_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="فوتر"
+                    android:textColor="@color/colorTextFooter"
+                    android:textSize="@dimen/text_footer"
+                    android:paddingEnd="@dimen/padding_list_sideways"/>
+
+                <TextView
+                    android:id="@+id/list_item_universal_footer2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="فوتر2"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/list_item_universal_extra1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="اکسترا۱"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer"
+                    android:paddingEnd="@dimen/padding_list_sideways"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/list_item_universal_extra2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="اکسترا۲"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/list_item_universal_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="۳۵۰۰۰۰" />
+
+        <ImageView
+            android:id="@+id/list_item_universal_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_next" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/list_item_universal_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/colorDividerLight"
+        android:layout_marginStart="@dimen/padding_list_sideways"
+        android:layout_marginEnd="@dimen/padding_list_sideways" />
+</LinearLayout>

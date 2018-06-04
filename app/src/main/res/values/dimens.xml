@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="app_bar_elevation">4dp</dimen>
+    <dimen name="padding_button">12dp</dimen>
+    <dimen name="padding_list_sideways">8dp</dimen>
+    <dimen name="padding_edit_sideways">16dp</dimen>
+
+    <dimen name="divider_top_space">4dp</dimen>
+    <dimen name="divider_bottom_space">8dp</dimen>
+
+    <dimen name="universal_list_partial_height">48dp</dimen>
+    <dimen name="universal_app_bar_height">48dp</dimen>
+    <dimen name="universal_ave_partial_height">48dp</dimen>
+    <dimen name="universal_ave_partial_image_offset">48dp</dimen>
+    <dimen name="universal_ave_partial_image_margin">12dp</dimen>
+    <dimen name="universal_ave_partial_image_margin_minus_list_sideways">4dp</dimen>
+
+    <dimen name="list_bottom_space">60dp</dimen>
+    <dimen name="list_bottom_space_full">90dp</dimen>
+
+    <dimen name="text_small">13sp</dimen>
+    <dimen name="text_normal">16sp</dimen>
+    <dimen name="text_title">18sp</dimen>
+    <dimen name="text_footer">10sp</dimen>
+</resources>

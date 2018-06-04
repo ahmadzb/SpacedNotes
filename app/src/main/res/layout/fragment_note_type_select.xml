@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.diplinkblaze.spacednote.note.NoteTypeSelectFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_note_type_select_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/list_bottom_space">
+
+    </android.support.v7.widget.RecyclerView>
+</FrameLayout>

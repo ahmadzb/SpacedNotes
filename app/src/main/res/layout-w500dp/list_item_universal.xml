@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_universal_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/universal_list_partial_height"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/list_item_universal_header"
+        layout="@layout/list_header_universal"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/list_item_universal_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/list_item_universal_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_bobble"
+            android:gravity="center"
+            android:text="T"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/list_item_universal_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="200dp"
+                    android:text="Title"
+                    android:textColor="@color/colorText" />
+
+                <TextView
+                    android:id="@+id/list_item_universal_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="200dp"
+                    android:text="More"
+                    android:textColor="@color/colorTextDetail" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/list_item_universal_footer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Footer"
+                    android:textColor="?android:colorAccent"
+                    android:textSize="@dimen/text_footer"
+                    android:paddingEnd="@dimen/padding_list_sideways"/>
+
+                <TextView
+                    android:id="@+id/list_item_universal_footer2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Footer2"
+                    android:visibility="gone"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/list_item_universal_extra1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extra1"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer"
+                    android:paddingEnd="@dimen/padding_list_sideways"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/list_item_universal_extra2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extra2"
+                    android:textColor="@color/colorTextDetail"
+                    android:textSize="@dimen/text_footer"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/list_item_universal_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="35653"
+            android:paddingEnd="16dp"
+            android:paddingStart="8dp" />
+
+        <ImageView
+            android:id="@+id/list_item_universal_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_next" />
+
+        <ImageView
+            android:id="@+id/list_item_universal_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="12dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_more" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/list_item_universal_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/colorDividerLight"
+        android:layout_marginStart="@dimen/padding_list_sideways"
+        android:layout_marginEnd="@dimen/padding_list_sideways" />
+</LinearLayout>

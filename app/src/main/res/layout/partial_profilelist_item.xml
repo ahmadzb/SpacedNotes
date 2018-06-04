@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/partial_profilelist_item_root"
+    android:background="@color/colorNamedOrange">
+
+    <LinearLayout
+        android:id="@+id/partial_profilelist_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/partial_profilelist_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Profile title"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_title"
+            android:padding="@dimen/padding_list_sideways"/>
+
+        <ImageView
+            android:id="@+id/partial_profilelist_item_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_black_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#ffffff"
+            android:alpha="0.7"
+            android:padding="@dimen/padding_button"/>
+
+    </LinearLayout>
+
+</LinearLayout>

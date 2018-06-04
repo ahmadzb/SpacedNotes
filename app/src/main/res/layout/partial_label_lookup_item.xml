@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:id="@+id/partial_label_lookup_item_frame"
+    android:minHeight="@dimen/universal_list_partial_height"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingEnd="@dimen/padding_list_sideways">
+
+    <ImageView
+        android:id="@+id/partial_label_lookup_item_icon"
+        android:layout_width="32dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_label_black_24dp"
+        android:scaleType="center"/>
+
+    <TextView
+        android:id="@+id/partial_label_lookup_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:text="label name"/>
+
+    <TextView
+        android:id="@+id/partial_label_lookup_item_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="details"
+        android:textColor="?android:attr/colorPrimary"/>
+
+</LinearLayout>

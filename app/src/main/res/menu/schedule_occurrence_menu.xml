@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/schedule_occurrence_menu_edit"
+        android:icon="@drawable/ic_edit_white"
+        android:title="@string/edit"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/schedule_occurrence_menu_delete_last"
+        android:title="@string/delete_last_item"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/schedule_occurrence_menu_delete_self"
+        android:title="@string/delete_schedule"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/schedule_occurrence_menu_merge"
+        android:title="@string/merge_schedule"
+        app:showAsAction="never" />
+</menu>

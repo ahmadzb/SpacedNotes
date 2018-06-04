@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="320dp"
+    tools:context="com.diplinkblaze.spacednote.labels.LabelLookupFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_label_lookup_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_top_shadow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/colorBackgroundSecondSolid">
+
+            <ImageView
+                android:id="@+id/fragment_label_lookup_mode_label"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_label_black_24dp"
+                android:tint="?android:attr/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+            <ImageView
+                android:id="@+id/fragment_label_lookup_mode_label_list"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_list_white"
+                android:tint="?android:attr/colorPrimary"
+                android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+            <EditText
+                android:id="@+id/fragment_label_lookup_search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:hint="search here"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_semi_rounded_white"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="8dp"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

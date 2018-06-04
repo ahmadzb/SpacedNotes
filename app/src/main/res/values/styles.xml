@@ -1,0 +1,202 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">#0389d4</item>
+        <item name="colorAccent">#cddc39</item>
+        <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+    </style>
+
+    <style name="AppTheme.Red">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedRed</item>
+        <item name="colorPrimaryDark">@color/colorNamedRedDark</item>
+        <item name="colorAccent">@color/colorNamedAmber</item>
+    </style>
+
+    <style name="AppTheme.Pink">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedPink</item>
+        <item name="colorPrimaryDark">@color/colorNamedPinkDark</item>
+        <item name="colorAccent">@color/colorNamedAmber</item>
+    </style>
+
+    <style name="AppTheme.Purple">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedPurple</item>
+        <item name="colorPrimaryDark">@color/colorNamedPurpleDark</item>
+        <item name="colorAccent">@color/colorNamedLightGreen</item>
+    </style>
+
+    <style name="AppTheme.DeepPurple">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedDeepPurple</item>
+        <item name="colorPrimaryDark">@color/colorNamedDeepPurpleDark</item>
+        <item name="colorAccent">@color/colorNamedLightGreen</item>
+    </style>
+
+    <style name="AppTheme.Indigo">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedIndigo</item>
+        <item name="colorPrimaryDark">@color/colorNamedIndigoDark</item>
+        <item name="colorAccent">@color/colorNamedLime</item>
+    </style>
+
+    <style name="AppTheme.Blue">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedBlue</item>
+        <item name="colorPrimaryDark">@color/colorNamedBlueDark</item>
+        <item name="colorAccent">@color/colorNamedLime</item>
+    </style>
+
+    <style name="AppTheme.LightBlue">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedLightBlue</item>
+        <item name="colorPrimaryDark">@color/colorNamedLightBlueDark</item>
+        <item name="colorAccent">@color/colorNamedLime</item>
+    </style>
+
+    <style name="AppTheme.Cyan">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedCyan</item>
+        <item name="colorPrimaryDark">@color/colorNamedCyanDark</item>
+        <item name="colorAccent">@color/colorNamedLime</item>
+    </style>
+
+    <style name="AppTheme.Teal">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedTeal</item>
+        <item name="colorPrimaryDark">@color/colorNamedTealDark</item>
+        <item name="colorAccent">@color/colorNamedPurple</item>
+    </style>
+
+    <style name="AppTheme.Green">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedGreen</item>
+        <item name="colorPrimaryDark">@color/colorNamedGreenDark</item>
+        <item name="colorAccent">@color/colorNamedLightBlue</item>
+    </style>
+
+    <style name="AppTheme.LightGreen">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedLightGreen</item>
+        <item name="colorPrimaryDark">@color/colorNamedLightGreenDark</item>
+        <item name="colorAccent">@color/colorNamedLightBlue</item>
+    </style>
+
+    <style name="AppTheme.Lime">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedLime</item>
+        <item name="colorPrimaryDark">@color/colorNamedLimeDark</item>
+        <item name="colorAccent">@color/colorNamedLightBlue</item>
+    </style>
+
+    <style name="AppTheme.Yellow">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedYellow</item>
+        <item name="colorPrimaryDark">@color/colorNamedYellowDark</item>
+        <item name="colorAccent">@color/colorNamedGreen</item>
+    </style>
+
+    <style name="AppTheme.Amber">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedAmber</item>
+        <item name="colorPrimaryDark">@color/colorNamedAmberDark</item>
+        <item name="colorAccent">@color/colorNamedGreen</item>
+    </style>
+
+    <style name="AppTheme.Orange">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedOrange</item>
+        <item name="colorPrimaryDark">@color/colorNamedOrangeDark</item>
+        <item name="colorAccent">@color/colorNamedGreen</item>
+    </style>
+
+    <style name="AppTheme.DeepOrange">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedDeepOrange</item>
+        <item name="colorPrimaryDark">@color/colorNamedDeepOrangeDark</item>
+        <item name="colorAccent">@color/colorNamedYellow</item>
+    </style>
+
+    <style name="AppTheme.Brown">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedBrown</item>
+        <item name="colorPrimaryDark">@color/colorNamedBrownDark</item>
+        <item name="colorAccent">@color/colorNamedLightBlue</item>
+    </style>
+
+    <style name="AppTheme.BlueGray">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorNamedBlueGray</item>
+        <item name="colorPrimaryDark">@color/colorNamedBlueGrayDark</item>
+        <item name="colorAccent">@color/colorNamedLime</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_launch</item>
+    </style>
+
+    <style name="NavMenuItem">
+        <item name="android:tag">@string/tag_nav_menu_item</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="NavMenuItem.Openable">
+        <item name="android:tag">@string/tag_nav_menu_item_openable</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="NavMenuDivider">
+        <item name="android:src">@color/colorDividerLight</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="NavMenuText">
+        <item name="android:tag">@string/tag_nav_menu_text</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="NavMenuImage">
+        <item name="android:tag">@string/tag_nav_menu_icon</item>
+        <item name="android:minWidth">36dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="AmountInputCell">
+        <item name="android:tag">@string/tag_amount_input_cell</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="AmountInputCell.Second" parent="AmountInputCell">
+        <item name="android:tag">@string/tag_amount_input_cell_second</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?android:colorPrimary</item>
+    </style>
+
+    <style name="fab_menu_labels_style">
+        <item name="android:background">@drawable/bg_semi_rounded_white</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+</resources>

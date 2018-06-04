@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:minWidth="270dp"
+    android:layoutDirection="rtl">
+    <!--tools:context="com.zenahmad.emfree.universal.fragments.TextInputDialogFragment">-->
+
+    <EditText
+        android:id="@+id/fragment_text_input_dialog_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="flagNoExtractUi" />
+
+    <EditText
+        android:id="@+id/fragment_text_input_dialog_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="1234567890"
+        android:maxLength="16"
+        android:imeOptions="flagNoExtractUi"
+        android:inputType="number"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/fragment_text_input_dialog_dismiss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_button"
+            android:text="@string/universal_dismiss"
+            android:background="?attr/selectableItemBackground"/>
+
+        <TextView
+            android:id="@+id/fragment_text_input_dialog_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_button"
+            android:text="@string/universal_save"
+            android:background="?attr/selectableItemBackground"/>
+    </LinearLayout>
+
+</LinearLayout>

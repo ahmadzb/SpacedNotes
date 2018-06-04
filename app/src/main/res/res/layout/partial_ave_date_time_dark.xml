@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/universal_ave_partial_height"
+    android:paddingLeft="16dp">
+
+    <ImageView
+        android:id="@+id/partial_ave_date_time_image"
+        android:layout_width="@dimen/universal_ave_partial_image_offset"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        android:src="@drawable/ic_date_time_white"
+        android:layout_marginEnd="@dimen/universal_ave_partial_image_margin"/>
+
+    <FrameLayout
+        android:id="@+id/partial_ave_date_time_time_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/partial_ave_date_time_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="17 Sep 2017"
+        android:textColor="@color/colorTextOnPrimary"
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>

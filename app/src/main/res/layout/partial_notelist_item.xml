@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/partial_notelist_item_swipe_reveal_layout"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    app:dragEdge="right"
+    app:mode="same_level">
+
+    <!-- Secondary layout here -->
+    <LinearLayout
+        android:id="@+id/partial_notelist_item_front_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/padding_list_sideways"
+            android:paddingStart="@dimen/padding_list_sideways">
+
+            <TextView
+                android:id="@+id/partial_notelist_item_title_hidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_title" />
+
+            <TextView
+                android:id="@+id/partial_notelist_item_details_hidden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/partial_notelist_item_details_next_revision"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/partial_notelist_item_details_next_revision_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/text_normal" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_next"
+                android:tint="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Main layout here -->
+    <LinearLayout
+        android:id="@+id/partial_notelist_item_back_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/partial_notelist_item_title_visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingEnd="@dimen/padding_list_sideways"
+            android:paddingStart="@dimen/padding_list_sideways"
+            android:text="Title"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_title" />
+
+        <TextView
+            android:id="@+id/partial_notelist_item_details_visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingEnd="@dimen/padding_list_sideways"
+            android:paddingStart="@dimen/padding_list_sideways"
+            android:text="Details"
+            android:textColor="@color/colorTextDetail"
+            android:textSize="@dimen/text_normal" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:src="@color/colorDividerLight" />
+
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

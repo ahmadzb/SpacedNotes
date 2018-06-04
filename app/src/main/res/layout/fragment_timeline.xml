@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diplinkblaze.spacednote.note.TimelineFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorBackgroundLight"
+        android:elevation="@dimen/app_bar_elevation">
+
+        <TextView
+            android:id="@+id/fragment_timeline_page_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_normal"
+            android:textColor="?android:attr/colorPrimary"
+            android:paddingStart="@dimen/padding_list_sideways"
+            android:layout_gravity="center_vertical"
+            android:text="Title"/>
+
+        <ImageView
+            android:id="@+id/fragment_timeline_page_previous"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_previous"
+            android:tint="?android:attr/colorPrimary"
+            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+        <ImageView
+            android:id="@+id/fragment_timeline_page_next"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_next"
+            android:tint="?android:attr/colorPrimary"
+            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_timeline_page_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+</LinearLayout>

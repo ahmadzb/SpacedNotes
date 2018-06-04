@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_universal_auto_complete_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <!--tools:context="com.zenahmad.emfree.universal.fragments.AutoCompleteFragment">-->
+
+    <ImageView
+        android:id="@+id/fragment_universal_auto_complete_image"
+        android:layout_width="@dimen/universal_ave_partial_image_offset"
+        android:layout_height="@dimen/universal_ave_partial_height"
+        android:layout_gravity="top"
+        android:layout_marginEnd="@dimen/universal_ave_partial_image_margin"
+        android:scaleType="center" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/fragment_universal_auto_complete_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/fragment_universal_auto_complete_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/fragment_universal_auto_complete_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:imeOptions="flagNoExtractUi"
+                android:backgroundTint="@android:color/transparent"
+                android:lines="1"
+                android:textSize="@dimen/text_normal" />
+
+            <ImageView
+                android:id="@+id/fragment_universal_auto_complete_open_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/padding_button"
+                android:src="@drawable/ic_open_popup" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

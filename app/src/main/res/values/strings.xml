@@ -1,0 +1,292 @@
+<resources>
+    <string name="app_name">SpacedNote</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_no">No</string>
+    <string name="action_back">Back</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_add_picture">Add Picture</string>
+    <string name="action_add">Add</string>
+    <string name="action_yes_keep_photos">Yes, Keep photos</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_stop_sync">Stop Sync</string>
+    <string name="action_sign_out">Sign Out</string>
+    <string name="action_forget_synced_content">Forget Synced Content</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_restart_revisions">Restart Revisions</string>
+    <string name="action_view_past_revisions">View Past Revisions</string>
+    <string name="action_change_date">Change Date</string>
+    <string name="action_change_time">Change Time</string>
+
+    <string name="title">Title</string>
+    <string name="hint">Hint</string>
+    <string name="timeline">Timeline</string>
+    <string name="label_lists">Label Lists</string>
+    <string name="parent_list">Parent list</string>
+    <string name="labels">Labels</string>
+    <string name="notes">Notes</string>
+    <string name="schedule">Schedule</string>
+    <string name="types">Types</string>
+    <string name="bin">Bin</string>
+    <string name="settings">Settings</string>
+    <string name="sync">Sync</string>
+    <string name="sync_google_drive">Sync - Google Drive</string>
+    <string name="sync_dropbox">Sync - Dropbox</string>
+    <string name="sync_skip">Skip sync</string>
+    <string name="initializing">Initializing&#8230;</string>
+    <string name="syncing">Syncing&#8230;</string>
+    <string name="sync_cancelled">Sync Cancelled</string>
+    <string name="sync_cancel_attempt">Attempting Cancel</string>
+    <string name="sync_finished">Sync Finished</string>
+    <string name="sync_failed">Sync Failed</string>
+    <string name="sync_sign_in_failed">Sign in Failed</string>
+    <string name="sync_sign_in_flow">Sign in Flow</string>
+    <string name="sync_signing_out">Signing out</string>
+    <string name="sync_signed_out">Signed out</string>
+    <string name="bold">Bold</string>
+    <string name="italic">Italic</string>
+    <string name="multiline">Multiline</string>
+    <string name="singleMode">Single mode</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="front_and_back">Front and Back</string>
+    <string name="text">Text</string>
+    <string name="list">List</string>
+    <string name="pictures">Pictures</string>
+    <string name="divider">Divider</string>
+    <string name="list_type_bullets">Bullets</string>
+    <string name="list_type_bullets_empty">Empty Bullets</string>
+    <string name="list_type_numbers">Numbers</string>
+    <string name="divider_type_line">Line</string>
+    <string name="divider_type_dashed_line">Dashed Line</string>
+    <string name="divider_type_title">Title</string>
+    <string name="divider_type_title_background">Title + Background</string>
+    <string name="divider_type_space">Space</string>
+    <string name="available">Available</string>
+    <string name="archived">Archived</string>
+    <string name="available_state">Available State</string>
+    <string name="archived_state">Archived State</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="plusDays">Plus Days</string>
+    <string name="delete_last_item">Delete Last Item</string>
+    <string name="delete_schedule">Delete Schedule</string>
+    <string name="merge_schedule">Merge Schedule</string>
+    <string name="all">All</string>
+    <string name="create_date">Create Date</string>
+    <string name="modify_date">Modify Date</string>
+    <string name="add_label">Add Label</string>
+    <string name="note_type">Note Type</string>
+    <string name="size_database_photos">Size (Database, Photos)</string>
+    <string name="default_profile">Default Profile</string>
+    <string name="initial_copy">Initial Copy</string>
+    <string name="active_devices">Active Devices</string>
+    <string name="remove_active_device">Remove Active Device</string>
+    <string name="no_occurrence">No Occurrence</string>
+    <string name="non_existent_occurrence">Non-existent Occurrence</string>
+    <string name="no_schedule">No Schedule</string>
+    <string name="past_revisions">Past Revisions</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="last_revision">Last Revision</string>
+    <string name="image_quality">Image Quality</string>
+    <string name="visible_fronts">Visible fronts</string>
+    <string name="visible_backs">Visible backs</string>
+    <string name="more_sync">More Sync</string>
+    <string name="channel_sync">Sync</string>
+    <string name="channel_sync_description">Sync service state</string>
+    <string name="delete_forever">Delete Forever</string>
+    <string name="restore">Restore</string>
+
+
+    <string name="universal_dismiss">dismiss</string>
+    <string name="universal_save">save</string>
+    <string name="universal_select">select</string>
+    <string name="universal_compare_to">compare to</string>
+    <string name="universal_amount_hint">amount</string>
+    <string name="universal_color">color</string>
+    <string name="universal_datetime">date and time</string>
+    <string name="universal_from_here">from here</string>
+    <string name="universal_to_here">to here</string>
+    <string name="universal_future">future</string>
+
+    <string name="sentence_delete_item_question">Delete selected item?</string>
+    <string name="sentence_delete_item_forever_question">Delete selected item forever?</string>
+    <string name="sentence_item_deleted_forever">Item deleted forever</string>
+    <string name="sentence_item_restored">Item restored</string>
+    <string name="sentence_archived_state_set">State set to archived successfully</string>
+    <string name="sentence_available_state_set">State set to available successfully</string>
+    <string name="sentence_delete_schedule_question">Delete selected schedule?</string>
+    <string name="sentence_delete_profile_question">Delete selected profile? Related photos will be deleted as well</string>
+    <string name="sentence_item_moved_to_bin">Item moved to bin</string>
+    <string name="sentence_profile_deleted">Profile deleted</string>
+    <string name="sentence_profile_deleted_photos_kept">Profile deleted, Photos kept</string>
+    <string name="sentence_permission_denied">Permission denied</string>
+    <string name="sentence_storage_permission_explanation">Application requires storage access to store log files and pictures</string>
+    <string name="sentence_available_offline">Available Offline</string>
+    <string name="sentence_remove_selected_active_device">Remove selected active device? This action cannot be undone</string>
+    <string name="sentence_max_active_device_reached">Maximum number of active devices reached, remove one device to continue</string>
+    <string name="sentence_skip_sync_question">Do you want to skip sync?</string>
+    <string name="sentence_sign_out_successful">Sign out successful</string>
+    <string name="sentence_sign_out_failed">Sign out failed</string>
+    <string name="sentence_synced_content_forgotten_successfully">Synced content forgotten successfully</string>
+    <string name="sentence_forget_synced_content">Forget synced content</string>
+    <string name="sentence_forget_synced_content_use_cases">Only use this option if you want to sync content with a different account or if you have accidentally removed the remote content</string>
+    <string name="sentence_sync_using_remote_content">Sync Using Remote Content</string>
+
+    <string name="partial_fontSizeSp">sp</string>
+    <string name="partial_open_parenthesis">(</string>
+    <string name="partial_close_parenthesis">)</string>
+    <string name="partial_colon">:</string>
+    <string name="partial_comma">,</string>
+    <string name="partial_and">and</string>
+    <string name="partial_add">add</string>
+    <string name="partial_quote_open">"</string>
+    <string name="partial_quote_close">"</string>
+    <string name="partial_until">until</string>
+    <string name="partial_slash">/</string>
+    <string name="partial_hyphen">-</string>
+    <string name="partial_days">days</string>
+    <string name="partial_day">day</string>
+    <string name="partial_conversion_for">conversion for</string>
+
+    <string name="menu_calendar_last_30_days">last 30 days</string>
+    <string name="menu_calendar_next_30_days">next 30 days</string>
+    <string name="menu_calendar_last_month">last month</string>
+    <string name="menu_calendar_this_month">this month</string>
+    <string name="menu_calendar_next_month">next month</string>
+    <string name="menu_calendar_last_7_days">last 7 days</string>
+    <string name="menu_calendar_next_7_days">next 7 days</string>
+    <string name="menu_calendar_last_week">last week</string>
+    <string name="menu_calendar_this_week">this week</string>
+    <string name="menu_calendar_next_week">next week</string>
+    <string name="menu_calendar_next_day">next day</string>
+    <string name="menu_calendar_last_day">last day</string>
+    <string name="menu_calendar_this_day">this day</string>
+    <string name="menu_calendar_last_year">last year</string>
+    <string name="menu_calendar_this_year">this year</string>
+    <string name="menu_calendar_next_year">next year</string>
+    <string name="menu_calendar_previous_period">previous period</string>
+    <string name="menu_calendar_previous_year">previous year</string>
+
+    <string name="colorNamedRed">Red</string>
+    <string name="colorNamedPink">Pink</string>
+    <string name="colorNamedPurple">Purple</string>
+    <string name="colorNamedDeepPurple">Deep Purple</string>
+    <string name="colorNamedIndigo">Indigo</string>
+    <string name="colorNamedBlue">Blue</string>
+    <string name="colorNamedLightBlue">Light Blue</string>
+    <string name="colorNamedCyan">Cyan</string>
+    <string name="colorNamedTeal">Teal</string>
+    <string name="colorNamedGreen">Green</string>
+    <string name="colorNamedLightGreen">Light Green</string>
+    <string name="colorNamedLime">Lime</string>
+    <string name="colorNamedYellow">Yellow</string>
+    <string name="colorNamedAmber">Amber</string>
+    <string name="colorNamedOrange">Orange</string>
+    <string name="colorNamedDeepOrange">Deep Orange</string>
+    <string name="colorNamedBrown">Brown</string>
+    <string name="colorNamedBlueGray">Blue Gray</string>
+    <string name="colorNamedGray">Gray</string>
+    <string name="colorNamedGray1">Gray 1</string>
+    <string name="colorNamedGray2">Gray 2</string>
+    <string name="colorNamedGray3">Gray 3</string>
+    <string name="colorNamedGray4">Gray 4</string>
+    <string name="colorNamedBlack">Black</string>
+
+    <string-array name="materialColorNames">
+        <item>@string/colorNamedRed</item>
+        <item>@string/colorNamedPink</item>
+        <item>@string/colorNamedPurple</item>
+        <item>@string/colorNamedDeepPurple</item>
+        <item>@string/colorNamedIndigo</item>
+        <item>@string/colorNamedBlue</item>
+        <item>@string/colorNamedLightBlue</item>
+        <item>@string/colorNamedCyan</item>
+        <item>@string/colorNamedTeal</item>
+        <item>@string/colorNamedGreen</item>
+        <item>@string/colorNamedLightGreen</item>
+        <item>@string/colorNamedLime</item>
+        <item>@string/colorNamedYellow</item>
+        <item>@string/colorNamedAmber</item>
+        <item>@string/colorNamedOrange</item>
+        <item>@string/colorNamedDeepOrange</item>
+        <item>@string/colorNamedBrown</item>
+        <item>@string/colorNamedBlueGray</item>
+        <item>@string/colorNamedGray</item>
+        <item>@string/colorNamedGray1</item>
+        <item>@string/colorNamedGray2</item>
+        <item>@string/colorNamedGray3</item>
+        <item>@string/colorNamedGray4</item>
+        <item>@string/colorNamedBlack</item>
+    </string-array>
+
+    <string name="half_day_before_noon">AM</string>
+    <string name="half_day_after_noon">PM</string>
+    <string-array name="week_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
+    <string-array name="week_full">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="month_full_persian">
+        <item>Farvardin</item>
+        <item>Ordibehesht</item>
+        <item>Khordad</item>
+        <item>Tir</item>
+        <item>Modrad</item>
+        <item>Shahrivar</item>
+        <item>Mehr</item>
+        <item>Aban</item>
+        <item>Azar</item>
+        <item>Dei</item>
+        <item>Bahman</item>
+        <item>Esfand</item>
+    </string-array>
+
+    <string-array name="month_full_gregorian">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_type_elements">TypeElementsActivity</string>
+    <string name="title_activity_schedule_occurrenece">ScheduleOccurreneceActivity</string>
+    <string name="title_activity_note_edit">NoteEditActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

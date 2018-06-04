@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/partial_notetype_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_normal"
+        android:minHeight="@dimen/bottomsheet_list_item_height"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/padding_list_sideways"
+        android:paddingEnd="@dimen/padding_list_sideways"
+        android:background="?attr/selectableItemBackground"/>
+
+</LinearLayout>

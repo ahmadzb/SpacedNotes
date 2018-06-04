@@ -1,0 +1,118 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.diplinkblaze.spacednote.note.NoteDrawerFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <LinearLayout
+            android:id="@+id/fragment_note_drawer_create_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_list_partial_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundSecond"
+                android:padding="@dimen/padding_list_sideways"
+                android:text="@string/create_date"
+                android:textColor="?android:colorAccent" />
+
+            <TextView
+                android:id="@+id/fragment_note_drawer_create_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/padding_list_sideways" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/fragment_note_drawer_modify_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_list_partial_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundSecond"
+                android:padding="@dimen/padding_list_sideways"
+                android:text="@string/modify_date"
+                android:textColor="?android:colorAccent" />
+
+            <TextView
+                android:id="@+id/fragment_note_drawer_modify_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/padding_list_sideways" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_note_drawer_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_list_partial_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundSecond"
+                android:padding="@dimen/padding_list_sideways"
+                android:text="@string/labels"
+                android:textColor="?android:colorAccent" />
+
+            <LinearLayout
+                android:id="@+id/fragment_note_drawer_tags_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/fragment_note_drawer_labels_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/padding_button"
+                android:padding="@dimen/padding_button"
+                android:text="@string/add_label"
+                android:textColor="?android:colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_note_drawer_note_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_list_partial_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundSecond"
+                android:padding="@dimen/padding_list_sideways"
+                android:text="@string/note_type"
+                android:textColor="?android:colorAccent" />
+
+            <TextView
+                android:id="@+id/fragment_note_drawer_note_type_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_list_sideways" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

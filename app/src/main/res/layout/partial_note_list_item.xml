@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackgroundLight"
+    android:id="@+id/partial_note_list_item_root">
+    
+    <TextView
+        android:id="@+id/partial_note_list_item_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_normal"
+        android:paddingTop="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="8dp"/>
+    
+    <EditText
+        android:id="@+id/partial_note_list_item_text"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:saveEnabled="false" />
+
+    <ImageView
+        android:id="@+id/partial_note_list_item_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_remove"
+        android:padding="@dimen/padding_button"/>
+</LinearLayout>

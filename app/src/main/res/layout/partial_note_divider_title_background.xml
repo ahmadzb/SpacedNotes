@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackgroundSecond">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_top_space" />
+    <TextView
+        android:id="@+id/partial_note_divide_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_edit_sideways"
+        android:paddingEnd="@dimen/padding_edit_sideways" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_bottom_space" />
+
+</LinearLayout>

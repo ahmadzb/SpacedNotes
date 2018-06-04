@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/partial_note_text_element"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textMultiLine"
+    android:background="@android:color/transparent"
+    android:paddingStart="@dimen/padding_edit_sideways"
+    android:paddingEnd="@dimen/padding_edit_sideways"
+    android:saveEnabled="false">
+
+</EditText>

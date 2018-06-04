@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#03a9f4</color>
+    <color name="colorTextOnPrimary">#FFFFFF</color>
+    <color name="colorText">#000000</color>
+    <color name="colorTextOnPrimaryDetails">#88ffffff</color>
+    <color name="colorTextDetail">#666666</color>
+    <color name="colorBackgroundLight">#FFFFFF</color>
+    <color name="colorBackgroundLightActivated">#11000000</color>
+    <color name="colorBackgroundSecond">#0c000000</color>
+    <color name="colorBackgroundSecondSolid">#eaeaea</color>
+    <color name="colorHintOnPrimary">#AAFFFFFF</color>
+    <color name="colorShadow">#66000000</color>
+    <color name="colorUnavailable">#22000000</color>
+
+    <color name="colorDivider">#88000000</color>
+    <color name="colorDividerLight">#22000000</color>
+
+    <color name="colorCalendarSelected">@color/colorNamedLightBlue</color>
+    <color name="colorCalendarCompareSelected">@color/colorNamedOrange</color>
+    <color name="colorCalendarBothSelected">@color/colorNamedPurple</color>
+    <color name="colorCalendarCurrent">@color/colorNamedGreen</color>
+    <color name="colorCalendarTitles">@color/colorNamedRed</color>
+    <color name="colorCalendarHoliday">@color/colorNamedRed</color>
+    <color name="colorCalendarHolidayLight">#66ff0000</color>
+    <color name="colorCalendarOrdinary">#bb000000</color>
+    <color name="colorCalendarOrdinaryLight">#66000000</color>
+
+    <color name="colorNamedRed">#d32f2f</color>
+    <color name="colorNamedPink">#c2185b</color>
+    <color name="colorNamedPurple">#7b1fa2</color>
+    <color name="colorNamedDeepPurple">#512da8</color>
+    <color name="colorNamedIndigo">#303f9f</color>
+    <color name="colorNamedBlue">#1976d2</color>
+    <color name="colorNamedLightBlue">#0288d1</color>
+    <color name="colorNamedCyan">#0097a7</color>
+    <color name="colorNamedTeal">#00796b</color>
+    <color name="colorNamedGreen">#388e3c</color>
+    <color name="colorNamedLightGreen">#689f38</color>
+    <color name="colorNamedLime">#afb42b</color>
+    <color name="colorNamedYellow">#fbc02d</color>
+    <color name="colorNamedAmber">#ffa000</color>
+    <color name="colorNamedOrange">#f57c00</color>
+    <color name="colorNamedDeepOrange">#e64a19</color>
+    <color name="colorNamedBrown">#5d4037</color>
+    <color name="colorNamedBlueGray">#455a64</color>
+    <color name="colorNamedGray">#9e9e9e</color>
+    <color name="colorNamedGray1">#777777</color>
+    <color name="colorNamedGray2">#555555</color>
+    <color name="colorNamedGray3">#333333</color>
+    <color name="colorNamedGray4">#222222</color>
+    <color name="colorNamedBlack">#000000</color>
+
+
+    <color name="colorNamedRedDark">#9a0007</color>
+    <color name="colorNamedPinkDark">#8c0032</color>
+    <color name="colorNamedPurpleDark">#4a0072</color>
+    <color name="colorNamedDeepPurpleDark">#140078</color>
+    <color name="colorNamedIndigoDark">#001970</color>
+    <color name="colorNamedBlueDark">#004ba0</color>
+    <color name="colorNamedLightBlueDark">#005b9f</color>
+    <color name="colorNamedCyanDark">#006978</color>
+    <color name="colorNamedTealDark">#004c40</color>
+    <color name="colorNamedGreenDark">#00600f</color>
+    <color name="colorNamedLightGreenDark">#387002</color>
+    <color name="colorNamedLimeDark">#7c8500</color>
+    <color name="colorNamedYellowDark">#c49000</color>
+    <color name="colorNamedAmberDark">#c67100</color>
+    <color name="colorNamedOrangeDark">#bb4d00</color>
+    <color name="colorNamedDeepOrangeDark">#ac0800</color>
+    <color name="colorNamedBrownDark">#321911</color>
+    <color name="colorNamedBlueGrayDark">#1c313a</color>
+
+    <integer-array name="materialColors">
+        <item>@color/colorNamedRed</item>
+        <item>@color/colorNamedPink</item>
+        <item>@color/colorNamedPurple</item>
+        <item>@color/colorNamedDeepPurple</item>
+        <item>@color/colorNamedIndigo</item>
+        <item>@color/colorNamedBlue</item>
+        <item>@color/colorNamedLightBlue</item>
+        <item>@color/colorNamedCyan</item>
+        <item>@color/colorNamedTeal</item>
+        <item>@color/colorNamedGreen</item>
+        <item>@color/colorNamedLightGreen</item>
+        <item>@color/colorNamedLime</item>
+        <item>@color/colorNamedYellow</item>
+        <item>@color/colorNamedAmber</item>
+        <item>@color/colorNamedOrange</item>
+        <item>@color/colorNamedDeepOrange</item>
+        <item>@color/colorNamedBrown</item>
+        <item>@color/colorNamedBlueGray</item>
+        <item>@color/colorNamedGray</item>
+        <item>@color/colorNamedGray1</item>
+        <item>@color/colorNamedGray2</item>
+        <item>@color/colorNamedGray3</item>
+        <item>@color/colorNamedGray4</item>
+        <item>@color/colorNamedBlack</item>
+    </integer-array>
+</resources>

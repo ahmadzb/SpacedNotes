@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/padding_edit_sideways">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/universal_ave_partial_image_offset"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/ic_filter" />
+
+        <Spinner
+            android:id="@+id/partial_note_schedule_controls_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_ave_partial_height" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/universal_ave_partial_image_offset"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/ic_filter" />
+
+        <Spinner
+            android:id="@+id/partial_note_schedule_controls_occurrence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/universal_ave_partial_height" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/partial_note_schedule_controls_restart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/universal_ave_partial_image_offset"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/universal_ave_partial_image_margin"
+            android:scaleType="center"
+            android:src="@drawable/ic_restore" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/universal_ave_partial_height"
+            android:text="@string/action_restart_revisions"
+            android:textSize="@dimen/text_normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/partial_note_schedule_controls_view_past"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/universal_ave_partial_image_offset"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/universal_ave_partial_image_margin"
+            android:scaleType="center"
+            android:src="@drawable/ic_search" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/universal_ave_partial_height"
+            android:text="@string/action_view_past_revisions"
+            android:textSize="@dimen/text_normal" />
+    </LinearLayout>
+
+</LinearLayout>

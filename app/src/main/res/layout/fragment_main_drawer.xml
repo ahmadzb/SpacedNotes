@@ -1,0 +1,284 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundLight"
+    android:orientation="vertical"
+    tools:context="com.diplinkblaze.spacednote.main.MainDrawerFragment">
+
+    <FrameLayout
+        android:id="@+id/fragment_main_drawer_header_frame"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="?android:colorPrimary">
+
+        <TextView
+            android:id="@+id/fragment_main_drawer_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_main_drawer_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/fragment_main_drawer_layout_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/list_bottom_space">
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_timeline"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_date_time_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/timeline" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_label_lists"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_label_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_lists" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_labels"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_category_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/labels" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_notes"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_note_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/notes" />
+                </LinearLayout>
+
+                <ImageView
+                    style="@style/NavMenuDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_schedule"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_date_time_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/schedule" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_types"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_filter_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/types" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_bin"
+                    style="@style/NavMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_bin_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/bin" />
+                </LinearLayout>
+
+                <ImageView
+                    style="@style/NavMenuDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_settings"
+                    style="@style/NavMenuItem.Openable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_settings_white" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings" />
+                </LinearLayout>
+
+                <ImageView
+                    style="@style/NavMenuDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_sync_drive"
+                    style="@style/NavMenuItem.Openable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_sync_white_24dp" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sync_google_drive" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_sync_dropbox"
+                    style="@style/NavMenuItem.Openable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_sync_white_24dp" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sync_dropbox" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/fragment_main_drawer_sync_more"
+                    style="@style/NavMenuText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more_sync"
+                    android:padding="12dp"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/bg_semi_rounded_second"/>
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+</LinearLayout>

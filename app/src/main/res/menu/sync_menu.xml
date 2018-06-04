@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sync_menu_retry"
+        android:title="@string/action_retry"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/sync_menu_stop_sync"
+        android:title="@string/action_stop_sync"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/sync_menu_sign_out"
+        android:title="@string/action_sign_out"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sync_menu_forget_synced_content"
+        android:title="@string/action_forget_synced_content"
+        app:showAsAction="never" />
+</menu>

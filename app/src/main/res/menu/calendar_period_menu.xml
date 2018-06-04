@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/calendar_period_menu_group_past">
+        <item
+            android:id="@+id/calendar_period_menu_last_day"
+            android:title="@string/menu_calendar_last_day" />
+        <item
+            android:id="@+id/calendar_period_menu_last_7_days"
+            android:title="@string/menu_calendar_last_7_days" />
+        <item
+            android:id="@+id/calendar_period_menu_last_30_days"
+            android:title="@string/menu_calendar_last_30_days" />
+        <item
+            android:id="@+id/calendar_period_menu_last_week"
+            android:title="@string/menu_calendar_last_week" />
+        <item
+            android:id="@+id/calendar_period_menu_last_month"
+            android:title="@string/menu_calendar_last_month" />
+        <item
+            android:id="@+id/calendar_period_menu_last_year"
+            android:title="@string/menu_calendar_last_year" />
+    </group>
+    <group android:id="@+id/calendar_period_menu_group_future">
+        <item
+            android:id="@+id/calendar_period_menu_next_day"
+            android:title="@string/menu_calendar_next_day" />
+        <item
+            android:id="@+id/calendar_period_menu_next_7_days"
+            android:title="@string/menu_calendar_next_7_days" />
+        <item
+            android:id="@+id/calendar_period_menu_next_30_days"
+            android:title="@string/menu_calendar_next_30_days" />
+        <item
+            android:id="@+id/calendar_period_menu_next_week"
+            android:title="@string/menu_calendar_next_week" />
+        <item
+            android:id="@+id/calendar_period_menu_next_month"
+            android:title="@string/menu_calendar_next_month" />
+        <item
+            android:id="@+id/calendar_period_menu_next_year"
+            android:title="@string/menu_calendar_next_year" />
+    </group>
+    <group android:id="@+id/calendar_period_menu_group_now">
+        <item
+            android:id="@+id/calendar_period_menu_this_day"
+            android:title="@string/menu_calendar_this_day" />
+        <item
+            android:id="@+id/calendar_period_menu_this_week"
+            android:title="@string/menu_calendar_this_week" />
+        <item
+            android:id="@+id/calendar_period_menu_this_month"
+            android:title="@string/menu_calendar_this_month" />
+        <item
+            android:id="@+id/calendar_period_menu_this_year"
+            android:title="@string/menu_calendar_this_year" />
+    </group>
+</menu>

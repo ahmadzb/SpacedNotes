@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/calendar_compare_menu_previous_period" android:title="@string/menu_calendar_previous_period" />
+    <item android:id="@+id/calendar_compare_menu_previous_year" android:title="@string/menu_calendar_previous_year" />
+</menu>
