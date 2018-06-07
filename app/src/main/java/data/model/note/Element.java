@@ -82,10 +82,10 @@ public abstract class Element {
         areEqual = areEqual && second.groupId == groupId;
         areEqual = areEqual && second.position == position;
         areEqual = areEqual && second.noteId == noteId;
-        return areEqual && areElementsEqual(second);
+        return areEqual && areSubFieldsEqual(second);
     }
 
-    protected abstract boolean areElementsEqual(Element second);
+    protected abstract boolean areSubFieldsEqual(Element second);
     public abstract boolean hasContent();
 
     //========================================= Utils ==============================================

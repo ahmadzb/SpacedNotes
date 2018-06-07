@@ -56,7 +56,7 @@ public class ElementPicture extends Element {
 
 
     @Override
-    public boolean areElementsEqual(Element second) {
+    public boolean areSubFieldsEqual(Element second) {
         if (second instanceof ElementPicture) {
             ElementPicture listSecond = (ElementPicture) second;
             if (listSecond.pictures != null && pictures != null && listSecond.pictures.size() == pictures.size()) {

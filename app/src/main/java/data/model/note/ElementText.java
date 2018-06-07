@@ -38,7 +38,7 @@ public class ElementText extends Element {
     }
 
     @Override
-    public boolean areElementsEqual(Element second) {
+    public boolean areSubFieldsEqual(Element second) {
         if (second instanceof ElementText) {
             ElementText textSecond = (ElementText) second;
             return textSecond.dataId == dataId && (textSecond.text == null? "" : textSecond.text).equals(text);

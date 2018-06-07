@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.diplinkblaze.spacednote.contract.BaseActivity;
 import com.diplinkblaze.spacednote.contract.NoActionbarActivity;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 import com.diplinkblaze.spacednote.R;
@@ -31,10 +30,8 @@ import com.diplinkblaze.spacednote.R;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -75,6 +72,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
     private static final String KEY_PICTURE_PREFIX = "picturePrefix";
     private static final String KEY_TOOLBAR_PREFIX = "toolbarPrefix";
     private static final String KEY_ELEMENTS_EDIT_PREFIX = "elementsEditPrefix";
+    private static final String KEY_CONTENT_HOLDER_PREFIX = "contentHolderPrefix";
 
     private final Main main = new Main();
     private final Toolbar toolbar = new Toolbar();
@@ -142,6 +140,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
 
         toolbar.initialize(savedInstanceState, KEY_TOOLBAR_PREFIX);
         elementsEdit.initialize(savedInstanceState, KEY_ELEMENTS_EDIT_PREFIX);
+        contentHolder.initialize(savedInstanceState, KEY_CONTENT_HOLDER_PREFIX);
         if (savedInstanceState == null) {
             lastGroupId = getMaxGroupId();
         } else {
@@ -185,6 +184,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         outState.putSerializable(KEY_ELEMENT_BUNDLES, contentHolder.elementBundles);
         toolbar.saveToBundle(outState, KEY_TOOLBAR_PREFIX);
         elementsEdit.saveToBundle(outState, KEY_ELEMENTS_EDIT_PREFIX);
+        contentHolder.saveToBundle(outState, KEY_CONTENT_HOLDER_PREFIX);
         outState.putLong(KEY_LAST_GROUP_ID, lastGroupId);
     }
 
@@ -423,36 +423,15 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         }
 
         private void dismiss() {
-            finish();
+            onBackPressed();
         }
 
         private boolean hasUnsavedContent() {
-            //Elements
-            {
-                ArrayList<data.model.note.Element> noteElements = prepareNoteElements();
-                if (!contentHolder.note.isRealized()) {
-                    for (data.model.note.Element element : noteElements) {
-                        if (element.hasContent()) {
-                            return true;
-                        }
-                    }
-                } else {
-                    ArrayList<data.model.note.Element> originalElements = data.model.note.ElementCatalog
-                            .getNoteElements(contentHolder.note, OpenHelper.getDatabase(NoteEditActivity.this));
-                    if (noteElements.size() == originalElements.size()) {
-                        for (data.model.note.Element newElement : noteElements) {
-                            boolean hasEqual = false;
-                            for (data.model.note.Element oldElement : originalElements) {
-                                hasEqual = hasEqual || oldElement.equals(newElement);
-                            }
-                            if (!hasEqual) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
+            boolean hasUnsaved = contentHolder.hasModifiedContent;
+            for (ElementModule elementModule : elementModules) {
+                hasUnsaved = hasUnsaved || elementModule.hasUnsavedContent();
             }
+            return hasUnsaved;
         }
 
         private ArrayList<data.model.note.Element> prepareNoteElements() {
@@ -568,6 +547,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 ElementBundle secondElementBundle = (ElementBundle) secondView.getTag();
                 firstElementBundle.position = secondPosition;
                 secondElementBundle.position = firstPosition;
+                contentHolder.hasModifiedContent = true;
             }
         }
 
@@ -591,6 +571,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 elementBundle.moduleReference.prepareSingleView(elementBundle);
                 elementBundle.moduleReference.finalizeSingleView(elementBundle);
                 elementBundle.removeView.setOnClickListener(new OnRemoveElementClicked(elementBundle));
+                contentHolder.hasModifiedContent = true;
             }
         }
 
@@ -610,11 +591,15 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                         e.position = e.position - 1;
                     }
                 }
+                contentHolder.hasModifiedContent = true;
             }
         }
     }
 
     private class ContentHolder {
+        private static final String KEY_SHOULD_RESET_MODIFY_DATE = "shouldResetModifyDate";
+        private static final String KEY_HAS_MODIFIED_CONTENT = "hasModifiedContent";
+
         private DragLinearLayout elementsLayout;
         private LinearLayout newElementLayout;
         private TreeMap<Long, Element> elementMap;
@@ -624,6 +609,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         private Note note;
         private ArrayList<Long> labels;
         private boolean shouldResetModifyDate = true;
+        private boolean hasModifiedContent;
 
 
         private ArrayList<ElementBundle> getElementBundlesForModule(ElementModule module) {
@@ -669,6 +655,20 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             }
             return null;
         }
+
+        private void initialize(Bundle bundle, String prefix) {
+            if (bundle != null) {
+                hasModifiedContent = bundle.getBoolean(prefix + KEY_HAS_MODIFIED_CONTENT);
+                shouldResetModifyDate = bundle.getBoolean(prefix + KEY_SHOULD_RESET_MODIFY_DATE);
+            }
+        }
+
+        private void saveToBundle(Bundle bundle, String prefix) {
+            if (bundle != null) {
+                bundle.putBoolean(prefix + KEY_HAS_MODIFIED_CONTENT, hasModifiedContent);
+                bundle.putBoolean(prefix + KEY_SHOULD_RESET_MODIFY_DATE, shouldResetModifyDate);
+            }
+        }
     }
 
     private class TextElement extends ElementModule {
@@ -704,6 +704,21 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 }
             }
             return elementView;
+        }
+
+        @Override
+        boolean hasUnsavedContent() {
+            ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
+            boolean hasUnsaved = false;
+            for (ElementBundle elementBundle : elementBundles) {
+                if (elementBundle.moduleReference == this) {
+                    EditText editText = elementBundle.elementView.findViewById(R.id.partial_note_text_element);
+                    String text = editText.getText().toString();
+                    ElementText textElement = (ElementText) elementBundle.noteElement;
+                    hasUnsaved = hasUnsaved || !text.equals(textElement == null ? "" : textElement.getText());
+                }
+            }
+            return hasUnsaved;
         }
 
 
@@ -803,6 +818,19 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             return elementView;
         }
 
+        @Override
+        boolean hasUnsavedContent() {
+            if (contentHolder.note.isRealized()) {
+                ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
+                boolean hasUnsaved = false;
+                for (ElementBundle elementBundle : elementBundles) {
+                    hasUnsaved = hasUnsaved || elementBundle.noteElement == null;
+                }
+                return hasUnsaved;
+            }
+            return false;
+        }
+
 
         @Override
         public void readNoteElements() {
@@ -850,6 +878,21 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         }
 
         @Override
+        boolean hasUnsavedContent() {
+            ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
+            boolean hasUnsaved = false;
+            for (ElementBundle elementBundle : elementBundles) {
+                ElementList noteElement = generateNoteElementFromViews(elementBundle);
+                if (noteElement == null) {
+                    hasUnsaved = hasUnsaved || elementBundle.noteElement != null;
+                } else {
+                    hasUnsaved = hasUnsaved || !noteElement.equals(elementBundle.noteElement);
+                }
+            }
+            return hasUnsaved;
+        }
+
+        @Override
         public void readNoteElements() {
             LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
             ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
@@ -877,30 +920,33 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         public void writeNoteElements() {
             ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
             for (ElementBundle elementBundle : elementBundles) {
+                elementBundle.noteElement = generateNoteElementFromViews(elementBundle);
+            }
+        }
 
-                ElementList noteElement = ElementList.newInstance();
-                noteElement.setElementId(elementBundle.typeElement.getId());
-                noteElement.setNoteId(contentHolder.note.getId());
+        private ElementList generateNoteElementFromViews(ElementBundle elementBundle) {
+            ElementList noteElement = ElementList.newInstance();
+            noteElement.setElementId(elementBundle.typeElement.getId());
+            noteElement.setNoteId(contentHolder.note.getId());
 
-                ViewGroup elementView = elementBundle.elementView.findViewById(R.id.partial_note_list_container_frame);
-                for (int i = 0; i < elementView.getChildCount(); i++) {
-                    View itemView = elementView.getChildAt(i);
-                    EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
-                    String text = editText.getText().toString();
+            ViewGroup elementView = elementBundle.elementView.findViewById(R.id.partial_note_list_container_frame);
+            for (int i = 0; i < elementView.getChildCount(); i++) {
+                View itemView = elementView.getChildAt(i);
+                EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
+                String text = editText.getText().toString();
 
-                    if (text != null && text.length() != 0) {
-                        ElementList.ListItem listItem = ElementList.ListItem.newInstance();
-                        listItem.setText(text);
-                        listItem.setPosition(i);
-                        noteElement.addItem(listItem);
-                    }
+                if (text != null && text.length() != 0) {
+                    ElementList.ListItem listItem = ElementList.ListItem.newInstance();
+                    listItem.setText(text);
+                    listItem.setPosition(i);
+                    noteElement.addItem(listItem);
                 }
+            }
 
-                if (noteElement.getItemCount() == 0) {
-                    elementBundle.noteElement = null;
-                } else {
-                    elementBundle.noteElement = noteElement;
-                }
+            if (noteElement.getItemCount() == 0) {
+                return null;
+            } else {
+                return noteElement;
             }
         }
 
@@ -1157,6 +1203,33 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             return pictureFrame;
         }
 
+        @Override
+        boolean hasUnsavedContent() {
+            TreeSet<Long> removeSet = new TreeSet<>();
+            if (previousFiles != null) {
+                removeSet.addAll(previousFiles.values());
+            }
+
+            ArrayList<ElementBundle> elementBundles = contentHolder.getElementBundlesForModule(this);
+            for (ElementBundle elementBundle : elementBundles) {
+                DragLinearLayout linearLayout = elementBundle.elementView.findViewById(R.id.partial_note_picture_container_frame);
+                for (int i = 0; i < linearLayout.getChildCount(); i++) {
+                    View itemView = linearLayout.getChildAt(i);
+                    File picture = (File) itemView.getTag(R.id.picture_view_file_name);
+                    Long pictureId = null;
+                    if (previousFiles != null) {
+                        pictureId = previousFiles.get(picture.getName());
+                    }
+                    if (pictureId == null) {
+                        return true;
+                    } else {
+                        removeSet.remove(pictureId);
+                    }
+                }
+                return removeSet.size() != 0;
+            }
+            return false;
+        }
 
         @Override
         public void readNoteElements() {
@@ -1429,6 +1502,8 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
     //======================================== Contract ============================================
     private abstract class ElementModule {
         abstract View createFrameView(LayoutInflater inflater, ElementBundle elementBundle, ViewGroup parent);
+
+        abstract boolean hasUnsavedContent();
 
         void prepareViews() {
         }

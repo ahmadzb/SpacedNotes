@@ -26,7 +26,7 @@ public class ElementDivider extends Element {
     }
 
     @Override
-    public boolean areElementsEqual(Element second) {
+    public boolean areSubFieldsEqual(Element second) {
         if (second instanceof ElementDivider) {
             ElementDivider dividerSecond = (ElementDivider) second;
             return dividerSecond.dataId == dataId;

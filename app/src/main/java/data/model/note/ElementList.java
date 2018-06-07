@@ -53,7 +53,7 @@ public class ElementList extends Element {
 
 
     @Override
-    public boolean areElementsEqual(Element second) {
+    public boolean areSubFieldsEqual(Element second) {
         if (second instanceof ElementList) {
             ElementList listSecond = (ElementList) second;
             if (listSecond.items != null && items != null && listSecond.items.size() == items.size()) {
