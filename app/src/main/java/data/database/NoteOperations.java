@@ -310,6 +310,7 @@ public class NoteOperations {
                 }
             }
         }
+        //TODO
         NoteElementOperations.deleteAllElementsByNote(note, writableDb);
         return deleteNote(note, writableDb);
     }
