@@ -74,6 +74,24 @@ public class ElementPicture extends Element {
     }
 
     @Override
+    protected boolean areSubFieldsContentEqual(Element second) {
+        if (second instanceof ElementPicture) {
+            ElementPicture listSecond = (ElementPicture) second;
+            if (listSecond.pictures != null && pictures != null && listSecond.pictures.size() == pictures.size()) {
+                int size = pictures.size();
+                boolean equal = true;
+                for (int i = 0; i < size; i++) {
+                    PictureItem item = pictures.get(i);
+                    PictureItem secondItem = listSecond.pictures.get(i);
+                    equal = equal && item.equalContents(secondItem);
+                }
+                return equal;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean hasContent() {
         if (pictures != null && pictures.size() != 0) {
             for (PictureItem item : pictures) {
@@ -127,6 +145,12 @@ public class ElementPicture extends Element {
             boolean equal = second != null;
             equal = equal && dataId == second.dataId;
             equal = equal && position == second.position;
+            equal = equal && pictureId == second.pictureId;
+            return equal;
+        }
+
+        public boolean equalContents(PictureItem second) {
+            boolean equal = second != null;
             equal = equal && pictureId == second.pictureId;
             return equal;
         }

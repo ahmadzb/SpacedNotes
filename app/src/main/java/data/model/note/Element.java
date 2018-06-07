@@ -85,7 +85,14 @@ public abstract class Element {
         return areEqual && areSubFieldsEqual(second);
     }
 
+    public boolean equalContents(Element second) {
+        boolean areEqual = second != null;
+        areEqual = areEqual && second.elementId == elementId;
+        return areEqual && areSubFieldsContentEqual(second);
+    }
+
     protected abstract boolean areSubFieldsEqual(Element second);
+    protected abstract boolean areSubFieldsContentEqual(Element second);
     public abstract boolean hasContent();
 
     //========================================= Utils ==============================================

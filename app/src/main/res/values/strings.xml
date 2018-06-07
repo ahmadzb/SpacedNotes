@@ -23,6 +23,7 @@
     <string name="action_view_past_revisions">View Past Revisions</string>
     <string name="action_change_date">Change Date</string>
     <string name="action_change_time">Change Time</string>
+    <string name="action_discard">Discard</string>
 
     <string name="title">Title</string>
     <string name="hint">Hint</string>
@@ -106,6 +107,7 @@
     <string name="delete_forever">Delete Forever</string>
     <string name="restore">Restore</string>
     <string name="discard">Discard</string>
+    <string name="unsaved_changes">Unsaved Changes</string>
 
 
     <string name="universal_dismiss">dismiss</string>

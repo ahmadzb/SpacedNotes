@@ -71,6 +71,24 @@ public class ElementList extends Element {
     }
 
     @Override
+    protected boolean areSubFieldsContentEqual(Element second) {
+        if (second instanceof ElementList) {
+            ElementList listSecond = (ElementList) second;
+            if (listSecond.items != null && items != null && listSecond.items.size() == items.size()) {
+                int size = items.size();
+                boolean equal = true;
+                for (int i = 0; i < size; i++) {
+                    ListItem item = items.get(i);
+                    ListItem secondItem = listSecond.items.get(i);
+                    equal = equal && item.equalContents(secondItem);
+                }
+                return equal;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean hasContent() {
         if (items != null && items.size() != 0) {
             for (ListItem item : items) {
@@ -123,6 +141,12 @@ public class ElementList extends Element {
             boolean equal = second != null;
             equal = equal && dataId == second.dataId;
             equal = equal && position == second.position;
+            equal = equal && (text == null? "" : text).equals(second.text);
+            return equal;
+        }
+
+        public boolean equalContents(ListItem second) {
+            boolean equal = second != null;
             equal = equal && (text == null? "" : text).equals(second.text);
             return equal;
         }

@@ -169,14 +169,14 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             drawer.closeDrawer(GravityCompat.START);
         } else if (main.hasUnsavedContent()) {
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.discard)
+                    .setTitle(R.string.unsaved_changes)
                     .setMessage(R.string.sentence_unsaved_changes)
-                    .setPositiveButton(R.string.action_yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.action_discard, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             NoteEditActivity.super.onBackPressed();
                         }
-                    }).setNegativeButton(R.string.action_no, null).show();
+                    }).setNegativeButton(R.string.action_back, null).show();
         } else {
             super.onBackPressed();
         }
@@ -387,7 +387,8 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             database.beginTransaction();
 
             //Insert Note if new (phase 1)
-            if (!contentHolder.note.isRealized()) {
+            boolean isNew = !contentHolder.note.isRealized();
+            if (isNew) {
                 contentHolder.note.setInitialized(true);
                 contentHolder.note.setId(NoteCatalog.addNote(contentHolder.note, database, getApplicationContext()));
                 contentHolder.note.setRealized(true);
@@ -897,7 +898,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 if (noteElement == null) {
                     hasUnsaved = hasUnsaved || elementBundle.noteElement != null;
                 } else {
-                    hasUnsaved = hasUnsaved || !noteElement.equals(elementBundle.noteElement);
+                    hasUnsaved = hasUnsaved || !noteElement.equalContents(elementBundle.noteElement);
                 }
             }
             return hasUnsaved;
@@ -1237,9 +1238,8 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                         removeSet.remove(pictureId);
                     }
                 }
-                return removeSet.size() != 0;
             }
-            return false;
+            return removeSet.size() != 0;
         }
 
         @Override
