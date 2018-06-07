@@ -52,7 +52,39 @@ public class ElementPicture extends Element {
     public PictureItem getItemAt(int index) {
         return pictures.get(index);
     }
-    
+
+
+
+    @Override
+    public boolean areElementsEqual(Element second) {
+        if (second instanceof ElementPicture) {
+            ElementPicture listSecond = (ElementPicture) second;
+            if (listSecond.pictures != null && pictures != null && listSecond.pictures.size() == pictures.size()) {
+                int size = pictures.size();
+                boolean equal = true;
+                for (int i = 0; i < size; i++) {
+                    PictureItem item = pictures.get(i);
+                    PictureItem secondItem = listSecond.pictures.get(i);
+                    equal = equal && item.equals(secondItem);
+                }
+                return equal;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasContent() {
+        if (pictures != null && pictures.size() != 0) {
+            for (PictureItem item : pictures) {
+                if (item.pictureId > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static class PictureItem {
         long dataId;
         long pictureId;
@@ -88,6 +120,15 @@ public class ElementPicture extends Element {
 
         public void setPosition(int position) {
             this.position = position;
+        }
+
+
+        public boolean equals(PictureItem second) {
+            boolean equal = second != null;
+            equal = equal && dataId == second.dataId;
+            equal = equal && position == second.position;
+            equal = equal && pictureId == second.pictureId;
+            return equal;
         }
     }
 

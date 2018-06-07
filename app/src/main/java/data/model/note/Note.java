@@ -252,7 +252,7 @@ public class Note implements Serializable {
         return new Comparator<Note>() {
             @Override
             public int compare(Note o1, Note o2) {
-                return Long.compare(o1.createDate, o2.createDate);
+                return -Long.compare(o1.createDate, o2.createDate);
             }
         };
     }

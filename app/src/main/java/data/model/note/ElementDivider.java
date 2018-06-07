@@ -24,4 +24,18 @@ public class ElementDivider extends Element {
         this.dataId = dataId;
         return this;
     }
+
+    @Override
+    public boolean areElementsEqual(Element second) {
+        if (second instanceof ElementDivider) {
+            ElementDivider dividerSecond = (ElementDivider) second;
+            return dividerSecond.dataId == dataId;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasContent() {
+        return false;
+    }
 }

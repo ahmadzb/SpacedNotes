@@ -75,6 +75,18 @@ public abstract class Element {
         isRealized = realized;
     }
 
+    public boolean equals(Element second) {
+        boolean areEqual = second != null;
+        areEqual = areEqual && second.isRealized == isRealized;
+        areEqual = areEqual && second.elementId == elementId;
+        areEqual = areEqual && second.groupId == groupId;
+        areEqual = areEqual && second.position == position;
+        areEqual = areEqual && second.noteId == noteId;
+        return areEqual && areElementsEqual(second);
+    }
+
+    protected abstract boolean areElementsEqual(Element second);
+    public abstract boolean hasContent();
 
     //========================================= Utils ==============================================
 

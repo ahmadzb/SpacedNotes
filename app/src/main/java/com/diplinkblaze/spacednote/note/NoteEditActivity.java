@@ -1,6 +1,8 @@
 package com.diplinkblaze.spacednote.note;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -158,6 +160,16 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (main.hasUnsavedContent()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.discard)
+                    .setMessage(R.string.sentence_unsaved_changes)
+                    .setPositiveButton(R.string.action_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            NoteEditActivity.super.onBackPressed();
+                        }
+                    }).setNegativeButton(R.string.action_no, null).show();
         } else {
             super.onBackPressed();
         }
@@ -381,20 +393,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
 
             //Update elements
             {
-                for (int i = 0; i < elementModules.length; i++) {
-                    elementModules[i].writeNoteElements();
-                }
-
-                ArrayList<data.model.note.Element> noteElements = new ArrayList<>(contentHolder.elementBundles.size());
-                for (int i = 0; i < contentHolder.elementBundles.size(); i++) {
-                    ElementBundle elementBundle = contentHolder.elementBundles.get(i);
-                    if (elementBundle.noteElement != null) {
-                        elementBundle.noteElement.setPosition(elementBundle.position);
-                        elementBundle.noteElement.setGroupId(elementBundle.groupId);
-                        noteElements.add(elementBundle.noteElement);
-                    }
-                }
-
+                ArrayList<data.model.note.Element> noteElements = prepareNoteElements();
                 data.model.note.ElementCatalog.updateNoteElements(contentHolder.note, noteElements, database, getApplicationContext());
             }
 
@@ -425,6 +424,52 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
 
         private void dismiss() {
             finish();
+        }
+
+        private boolean hasUnsavedContent() {
+            //Elements
+            {
+                ArrayList<data.model.note.Element> noteElements = prepareNoteElements();
+                if (!contentHolder.note.isRealized()) {
+                    for (data.model.note.Element element : noteElements) {
+                        if (element.hasContent()) {
+                            return true;
+                        }
+                    }
+                } else {
+                    ArrayList<data.model.note.Element> originalElements = data.model.note.ElementCatalog
+                            .getNoteElements(contentHolder.note, OpenHelper.getDatabase(NoteEditActivity.this));
+                    if (noteElements.size() == originalElements.size()) {
+                        for (data.model.note.Element newElement : noteElements) {
+                            boolean hasEqual = false;
+                            for (data.model.note.Element oldElement : originalElements) {
+                                hasEqual = hasEqual || oldElement.equals(newElement);
+                            }
+                            if (!hasEqual) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        private ArrayList<data.model.note.Element> prepareNoteElements() {
+            for (int i = 0; i < elementModules.length; i++) {
+                elementModules[i].writeNoteElements();
+            }
+
+            ArrayList<data.model.note.Element> noteElements = new ArrayList<>(contentHolder.elementBundles.size());
+            for (int i = 0; i < contentHolder.elementBundles.size(); i++) {
+                ElementBundle elementBundle = contentHolder.elementBundles.get(i);
+                if (elementBundle.noteElement != null) {
+                    elementBundle.noteElement.setPosition(elementBundle.position);
+                    elementBundle.noteElement.setGroupId(elementBundle.groupId);
+                    noteElements.add(elementBundle.noteElement);
+                }
+            }
+            return noteElements;
         }
     }
 

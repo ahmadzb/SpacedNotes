@@ -36,4 +36,18 @@ public class ElementText extends Element {
         this.text = text;
         return this;
     }
+
+    @Override
+    public boolean areElementsEqual(Element second) {
+        if (second instanceof ElementText) {
+            ElementText textSecond = (ElementText) second;
+            return textSecond.dataId == dataId && (textSecond.text == null? "" : textSecond.text).equals(text);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean hasContent() {
+        return text != null && !text.isEmpty();
+    }
 }

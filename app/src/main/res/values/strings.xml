@@ -104,6 +104,7 @@
     <string name="channel_sync_description">Sync service state</string>
     <string name="delete_forever">Delete Forever</string>
     <string name="restore">Restore</string>
+    <string name="discard">Discard</string>
 
 
     <string name="universal_dismiss">dismiss</string>
@@ -140,6 +141,7 @@
     <string name="sentence_forget_synced_content">Forget synced content</string>
     <string name="sentence_forget_synced_content_use_cases">Only use this option if you want to sync content with a different account or if you have accidentally removed the remote content</string>
     <string name="sentence_sync_using_remote_content">Sync Using Remote Content</string>
+    <string name="sentence_unsaved_changes">There are unsaved changes, discard them?</string>
 
     <string name="partial_fontSizeSp">sp</string>
     <string name="partial_open_parenthesis">(</string>
