@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.ActivityRequestHost;
+import com.diplinkblaze.spacednote.contract.ActivityRequestHostUtils;
 import com.diplinkblaze.spacednote.contract.ContentUpdateListener;
 import com.diplinkblaze.spacednote.contract.ContentUpdateUtil;
 import com.diplinkblaze.spacednote.contract.NewItemSupportListener;
@@ -38,6 +39,7 @@ public class LabelsListFragment extends Fragment implements ListFragment.OnFragm
     private static final String TAG_LIST = "list";
     private static final String TAG_AVE = "ave";
     private static final int ACTIVITY_REQUEST_AVE = 0;
+    private static final int ACTIVITY_REQUEST_NOTE_LIST = 2;
 
     public LabelsListFragment() {
         // Required empty public constructor
@@ -97,7 +99,12 @@ public class LabelsListFragment extends Fragment implements ListFragment.OnFragm
         ListUtil.Label.LabelEntity labelEntity = (ListUtil.Label.LabelEntity) entity;
         NoteSelector noteSelector = NoteSelectors.LabelNoteSelector.newInstance(labelEntity.getLabel().getId());
         Intent intent = NoteListActivity.getIntent(noteSelector, getContext());
-        startActivity(intent);
+        int request = ACTIVITY_REQUEST_NOTE_LIST;
+        if (getActivity() instanceof ActivityRequestHost) {
+            ActivityRequestHost host = (ActivityRequestHost) getActivity();
+            request = ActivityRequestHostUtils.toGlobalRequest(request, host, this);
+        }
+        startActivityForResult(intent, request);
     }
 
     @Override
@@ -196,6 +203,19 @@ public class LabelsListFragment extends Fragment implements ListFragment.OnFragm
                     if (request == requestCode) {
                         updateContent();
                     }
+                }
+            }
+        }
+        //note list
+        {
+            int request = ACTIVITY_REQUEST_NOTE_LIST;
+            if (getActivity() instanceof ActivityRequestHost) {
+                ActivityRequestHost host = (ActivityRequestHost) getActivity();
+                request = (request << host.getRequestShift()) | host.getRequestPrefix(this);
+            }
+            if (request == requestCode) {
+                if (resultCode == Activity.RESULT_OK) {
+                    updateContent();
                 }
             }
         }

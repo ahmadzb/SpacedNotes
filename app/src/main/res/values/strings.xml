@@ -56,6 +56,7 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="front_and_back">Front and Back</string>
+    <string name="none">None</string>
     <string name="text">Text</string>
     <string name="list">List</string>
     <string name="pictures">Pictures</string>

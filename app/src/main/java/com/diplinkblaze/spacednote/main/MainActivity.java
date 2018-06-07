@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.checker.ImplicitChecker;

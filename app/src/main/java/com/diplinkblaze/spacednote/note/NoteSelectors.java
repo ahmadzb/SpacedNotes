@@ -74,5 +74,12 @@ public class NoteSelectors {
             RevisionFuture updatedRevisionFuture = RevisionCatalog.getRevisionFutureForNote(note, readableDb);
             note.setRevisionFuture(updatedRevisionFuture);
         }
+
+        @Override
+        protected ArrayList<Long> initializeLabels() {
+            ArrayList<Long> labels = new ArrayList<>();
+            labels.add(labelId);
+            return labels;
+        }
     }
 }

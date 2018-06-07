@@ -23,4 +23,12 @@ public abstract class NoteSelector implements Serializable {
     protected void onNoteNextRevisionClicked(Note note, SQLiteDatabase readableDb) {
 
     }
+
+    protected boolean supportsNewNote() {
+        return true;
+    }
+
+    protected ArrayList<Long> initializeLabels() {
+        return null;
+    }
 }

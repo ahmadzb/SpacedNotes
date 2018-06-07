@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -96,6 +97,13 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         return intent;
     }
 
+    public static Intent getIntentNew(Context context, long type, ArrayList<Long> labels) {
+        Intent intent = new Intent(context, NoteEditActivity.class);
+        intent.putExtra(KEY_TYPE, type);
+        intent.putExtra(KEY_LABELS, labels);
+        return intent;
+    }
+
     public static Intent getIntentEdit(Context context, Note note) {
         Intent intent = new Intent(context, NoteEditActivity.class);
         intent.putExtra(KEY_TYPE, note.getTypeId());
@@ -114,7 +122,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         if (getSupportFragmentManager().findFragmentByTag(TAG_NAV_VIEW) == null) {
             NoteDrawerFragment fragment = NoteDrawerFragment.newInstance(true);
             fragment.setNoteDrawerInstance(NoteDrawerFragment.NoteDrawerInstance
-                    .newInstanceFromNote(contentHolder.note, this));
+                    .newInstanceFromNote(contentHolder.note, contentHolder.labels, this));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.activity_note_nav_view, fragment, TAG_NAV_VIEW);
             transaction.commit();
@@ -225,6 +233,9 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 for (Label label : list) {
                     contentHolder.labels.add(label.getId());
                 }
+            } else if (getIntent().getExtras().containsKey(KEY_LABELS)) {
+                contentHolder.labels = new ArrayList<>(
+                        (ArrayList<Long>) getIntent().getSerializableExtra(KEY_LABELS));
             } else {
                 contentHolder.labels = new ArrayList<>();
             }
@@ -1358,6 +1369,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 @Override
                 protected void onPostExecute(final Drawable drawable) {
                     final ImageView imageView = itemView.findViewById(R.id.partial_note_picture_item_content);
+                    final View contentScroll = findViewById(R.id.activity_note_edit_content_scroll);
                     if (imageView != null) {
                         imageView.post(new Runnable() {
                             @Override
@@ -1368,6 +1380,11 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                                 if (width != 0 && intWidth != 0 && intHeight != 0) {
                                     width = width - Measures.dpToPx(50, getApplicationContext());
                                     int height = (width * intHeight) / intWidth;
+                                    int maxHeight = (int) (contentScroll.getMeasuredHeight() * 0.8);
+                                    if (maxHeight != 0 && height >= maxHeight) {
+                                        height = maxHeight;
+                                        width = (height * intWidth) / intHeight;
+                                    }
 
                                     ViewGroup.LayoutParams params = imageView.getLayoutParams();
                                     params.width = width;

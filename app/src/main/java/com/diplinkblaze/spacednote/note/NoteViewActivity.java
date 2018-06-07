@@ -105,7 +105,7 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
         }
         if (getSupportFragmentManager().findFragmentByTag(TAG_NAV_VIEW) == null) {
             NoteDrawerFragment fragment = NoteDrawerFragment.newInstance(false);
-            fragment.setNoteDrawerInstance(NoteDrawerFragment.NoteDrawerInstance.newInstanceFromNote(note, this));
+            fragment.setNoteDrawerInstance(NoteDrawerFragment.NoteDrawerInstance.newInstanceFromNote(note,this));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.activity_note_nav_view, fragment, TAG_NAV_VIEW);
             transaction.commit();

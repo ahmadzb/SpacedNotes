@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.ActivityRequestHost;
+import com.diplinkblaze.spacednote.contract.ActivityRequestHostUtils;
 import com.diplinkblaze.spacednote.contract.BackSupportListener;
 import com.diplinkblaze.spacednote.contract.ContentUpdateListener;
 import com.diplinkblaze.spacednote.contract.ContentUpdateUtil;
@@ -45,6 +48,7 @@ public class LabelListsListFragment extends Fragment implements ListFragment.OnF
 
     private static final int ACTIVITY_REQUEST_AVE = 0;
     private static final int ACTIVITY_REQUEST_LABEL_CHOOSER = 1;
+    private static final int ACTIVITY_REQUEST_NOTE_LIST = 2;
 
     public LabelListsListFragment() {
         // Required empty public constructor
@@ -106,7 +110,12 @@ public class LabelListsListFragment extends Fragment implements ListFragment.OnF
             long labelId = labelListEntity.getLabel().getId();
             Intent intent = NoteListActivity.getIntent(
                     NoteSelectors.LabelNoteSelector.newInstance(labelId), getContext());
-            startActivity(intent);
+            int request = ACTIVITY_REQUEST_NOTE_LIST;
+            if (getActivity() instanceof ActivityRequestHost) {
+                ActivityRequestHost host = (ActivityRequestHost) getActivity();
+                request = ActivityRequestHostUtils.toGlobalRequest(request, host, this);
+            }
+            startActivityForResult(intent, request);
         }
     }
 
@@ -235,6 +244,19 @@ public class LabelListsListFragment extends Fragment implements ListFragment.OnF
             if (request == requestCode) {
                 if (resultCode == Activity.RESULT_OK) {
                     changeLabelsResult(data);
+                }
+            }
+        }
+        //note list
+        {
+            int request = ACTIVITY_REQUEST_NOTE_LIST;
+            if (getActivity() instanceof ActivityRequestHost) {
+                ActivityRequestHost host = (ActivityRequestHost) getActivity();
+                request = (request << host.getRequestShift()) | host.getRequestPrefix(this);
+            }
+            if (request == requestCode) {
+                if (resultCode == Activity.RESULT_OK) {
+                    updateContent();
                 }
             }
         }

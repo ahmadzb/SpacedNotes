@@ -169,7 +169,12 @@ public class NoteListFragment extends Fragment implements NewItemSupportListener
             ActivityRequestHost host = (ActivityRequestHost) getActivity();
             request = (request << host.getRequestShift()) | host.getRequestPrefix(this);
         }
-        startActivityForResult(NoteEditActivity.getIntentNew(getContext(), type.getId()), request);
+        ArrayList<Long> labels = noteSelector.initializeLabels();
+        if (labels == null || labels.size() == 0) {
+            startActivityForResult(NoteEditActivity.getIntentNew(getContext(), type.getId()), request);
+        } else {
+            startActivityForResult(NoteEditActivity.getIntentNew(getContext(), type.getId(), labels), request);
+        }
     }
 
     //======================================= Adapter ==============================================

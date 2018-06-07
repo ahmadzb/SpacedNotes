@@ -315,12 +315,15 @@ public class AveUtil {
                 choiceComponent.choiceListResIds.add(R.string.front);
                 choiceComponent.choiceListResIds.add(R.string.back);
                 choiceComponent.choiceListResIds.add(R.string.front_and_back);
+                choiceComponent.choiceListResIds.add(R.string.none);
                 if (element != null) {
-                    int position = 0;
+                    int position = 3;
                     if (element.hasSideFront() && element.hasSideBack()) {
                         position = 2;
                     } else if (element.hasSideBack()) {
                         position = 1;
+                    } else if (element.hasSideFront()) {
+                        position = 0;
                     }
                     choiceComponent.currentPosition = position;
                 }
@@ -489,12 +492,15 @@ public class AveUtil {
                 choiceComponent.choiceListResIds.add(R.string.front);
                 choiceComponent.choiceListResIds.add(R.string.back);
                 choiceComponent.choiceListResIds.add(R.string.front_and_back);
+                choiceComponent.choiceListResIds.add(R.string.none);
                 if (element != null) {
-                    int position = 0;
+                    int position = 3;
                     if (element.hasSideFront() && element.hasSideBack()) {
                         position = 2;
                     } else if (element.hasSideBack()) {
                         position = 1;
+                    } else if (element.hasSideFront()) {
+                        position = 0;
                     }
                     choiceComponent.currentPosition = position;
                 }
@@ -565,12 +571,15 @@ public class AveUtil {
                 choiceComponent.choiceListResIds.add(R.string.front);
                 choiceComponent.choiceListResIds.add(R.string.back);
                 choiceComponent.choiceListResIds.add(R.string.front_and_back);
+                choiceComponent.choiceListResIds.add(R.string.none);
                 if (element != null) {
-                    int position = 0;
+                    int position = 3;
                     if (element.hasSideFront() && element.hasSideBack()) {
                         position = 2;
                     } else if (element.hasSideBack()) {
                         position = 1;
+                    } else if (element.hasSideFront()) {
+                        position = 0;
                     }
                     choiceComponent.currentPosition = position;
                 }
@@ -793,12 +802,15 @@ public class AveUtil {
                 choiceComponent.choiceListResIds.add(R.string.front);
                 choiceComponent.choiceListResIds.add(R.string.back);
                 choiceComponent.choiceListResIds.add(R.string.front_and_back);
+                choiceComponent.choiceListResIds.add(R.string.none);
                 if (element != null) {
-                    int position = 0;
+                    int position = 3;
                     if (element.hasSideFront() && element.hasSideBack()) {
                         position = 2;
                     } else if (element.hasSideBack()) {
                         position = 1;
+                    } else if (element.hasSideFront()) {
+                        position = 0;
                     }
                     choiceComponent.currentPosition = position;
                 }
@@ -884,6 +896,9 @@ public class AveUtil {
                     } else if (choice.currentPosition == 2) {
                         element.setSideBack(true);
                         element.setSideFront(true);
+                    } else if (choice.currentPosition == 3) {
+                        element.setSideBack(false);
+                        element.setSideFront(false);
                     }
                 } else if (Tag.singleMode.equals(component.tag)) {
                     AveComponentSet.Property property = (AveComponentSet.Property) component;

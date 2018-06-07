@@ -27,6 +27,8 @@ import org.joda.time.LocalTime;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import javax.annotation.Nullable;
+
 import data.database.OpenHelper;
 import data.model.label.Label;
 import data.model.label.LabelCatalog;
@@ -328,15 +330,25 @@ public class NoteDrawerFragment extends Fragment implements LabelLookupFragment.
         }
 
         public static NoteDrawerInstance newInstanceFromNote(Note note, Context context) {
+            ArrayList<Label> labels = LabelCatalog.getLabelsByNote(note.getId(), OpenHelper.getDatabase(context));
+            return newInstanceFromNoteAndLabel(note, labels, context);
+        }
+
+        public static NoteDrawerInstance newInstanceFromNote(Note note, ArrayList<Long> labelIds, Context context) {
+            TreeMap<Long, Label> labelMap = LabelCatalog.getLabelsMap(OpenHelper.getDatabase(context));
+            ArrayList<Label> labels = new ArrayList<>(labelIds.size());
+            for (long labelId : labelIds) {
+                labels.add(labelMap.get(labelId));
+            }
+            return newInstanceFromNoteAndLabel(note, labels, context);
+        }
+
+        private static NoteDrawerInstance newInstanceFromNoteAndLabel(Note note, ArrayList<Label> labels, Context context) {
             NoteDrawerInstance instance = new NoteDrawerInstance();
             Chronology chronology = ChronologyCatalog.getCurrentChronology(context);
             instance.createDate = new DateTime(note.getCreateDate(), chronology);
             instance.modifyDate = new DateTime(note.getModifyDate(), chronology);
-            if (note.isRealized()) {
-                instance.labels = LabelCatalog.getLabelsByNote(note.getId(), OpenHelper.getDatabase(context));
-            } else {
-                instance.labels = new ArrayList<>();
-            }
+            instance.labels = new ArrayList<>(labels);
             instance.noteType = TypeCatalog.getTypeById(note.getTypeId(), OpenHelper.getDatabase(context));
             instance.note = note;
             return instance;
