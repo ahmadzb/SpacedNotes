@@ -44,7 +44,20 @@
                 android:alpha="0.5"/>
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="10dp"
+                android:layout_height="1dp" />
+
+            <ImageView
+                android:id="@+id/content_note_view_toolbar_to_pdf"
+                android:layout_width="@dimen/universal_app_bar_height"
+                android:layout_height="@dimen/universal_app_bar_height"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="center"
+                android:src="@drawable/ic_to_pdf"
+                android:alpha="0.5" />
+
+            <Space
+                android:layout_width="10dp"
                 android:layout_height="1dp" />
 
             <ImageView
@@ -56,7 +69,7 @@
                 android:src="@drawable/ic_edit" />
 
             <Space
-                android:layout_width="20dp"
+                android:layout_width="10dp"
                 android:layout_height="1dp" />
 
             <TextView

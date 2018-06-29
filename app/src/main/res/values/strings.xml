@@ -50,6 +50,9 @@
     <string name="sync_sign_in_flow">Sign in Flow</string>
     <string name="sync_signing_out">Signing out</string>
     <string name="sync_signed_out">Signed out</string>
+    <string name="export">Export</string>
+    <string name="exporting">Exporting&#8230;</string>
+    <string name="export_failed">Export Failed</string>
     <string name="bold">Bold</string>
     <string name="italic">Italic</string>
     <string name="multiline">Multiline</string>
@@ -104,6 +107,8 @@
     <string name="more_sync">More Sync</string>
     <string name="channel_sync">Sync</string>
     <string name="channel_sync_description">Sync service state</string>
+    <string name="channel_export">Export</string>
+    <string name="channel_export_description">State of Export background service</string>
     <string name="delete_forever">Delete Forever</string>
     <string name="restore">Restore</string>
     <string name="discard">Discard</string>

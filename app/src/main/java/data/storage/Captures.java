@@ -55,22 +55,26 @@ public class Captures {
 
     public static File getEarliestCapture() {
         File[] possibleCaptures = getDirectory().listFiles();
-        ArrayList<File> actualCaptures = new ArrayList<>(possibleCaptures.length);
-        for (File file : possibleCaptures) {
-            if (isCaptureFile(file))
-                actualCaptures.add(file);
-        }
-
-        long maxCOC = 0;
-        File maxCaptureFile = null;
-        for (File captureFile : actualCaptures) {
-            long captureCOC = Captures.getCaptureCOCByFileName(captureFile.getName());
-            if (maxCOC < captureCOC) {
-                maxCaptureFile = captureFile;
-                maxCOC = captureCOC;
+        if (possibleCaptures != null) {
+            ArrayList<File> actualCaptures = new ArrayList<>(possibleCaptures.length);
+            for (File file : possibleCaptures) {
+                if (isCaptureFile(file))
+                    actualCaptures.add(file);
             }
+
+            long maxCOC = 0;
+            File maxCaptureFile = null;
+            for (File captureFile : actualCaptures) {
+                long captureCOC = Captures.getCaptureCOCByFileName(captureFile.getName());
+                if (maxCOC < captureCOC) {
+                    maxCaptureFile = captureFile;
+                    maxCOC = captureCOC;
+                }
+            }
+            return maxCaptureFile;
+        } else {
+            return null;
         }
-        return maxCaptureFile;
     }
 
     public static boolean isCaptureFile(File file) {

@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -36,6 +39,10 @@ public class TypeFaceUtils {
     private static NumberFormat persianNumberFormat;
     private static DecimalFormat persianDecimalFormat;
     private static DecimalFormat persianDecimalFormatEnglishSymbols;
+
+    public static InputStream getFontInputStream(AssetManager assets, String fontName) throws IOException {
+        return assets.open("fonts/" + fontName);
+    }
 
     public static Typeface getFont(AssetManager assets, String fontName) {
         Typeface tf = fontCache.get(fontName);

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.BaseActivity;
@@ -46,6 +47,7 @@ import data.model.schedule.ScheduleCatalog;
 import data.model.scheduler.RevisionCatalog;
 import data.model.scheduler.RevisionFuture;
 import data.model.scheduler.Scheduler;
+import data.pdf.NoteToPdf;
 import util.Colors;
 import util.TypeFaceUtils;
 import util.datetime.primitive.Representation;
@@ -166,6 +168,7 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
         public void initializeViews() {
             View backButton = findViewById(R.id.content_note_view_toolbar_dismiss);
             View editButton = findViewById(R.id.content_note_view_toolbar_edit);
+            View pdfButton = findViewById(R.id.content_note_view_toolbar_to_pdf);
             View deleteButton = findViewById(R.id.content_note_view_toolbar_delete);
             View labelsButton = findViewById(R.id.content_note_view_toolbar_labels);
             View infoButton = findViewById(R.id.content_note_view_toolbar_info);
@@ -173,6 +176,7 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
 
             OnActionBarItemClicked actionBarItemClicked = new OnActionBarItemClicked();
             backButton.setOnClickListener(actionBarItemClicked);
+            pdfButton.setOnClickListener(actionBarItemClicked);
             labelsButton.setOnClickListener(actionBarItemClicked);
             infoButton.setOnClickListener(actionBarItemClicked);
             boolean isReadOnly = getIntent().getBooleanExtra(KEY_READ_ONLY, false);
@@ -197,6 +201,13 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
         private void edit() {
             Intent intent = NoteEditActivity.getIntentEdit(getApplicationContext(), note);
             startActivityForResult(intent, ACTIVITY_REQUEST_NOTE_EDIT);
+        }
+
+        private void toPdf() {
+            Intent intent = NoteToPdfService.getIntent(note.getId(), getApplicationContext());
+            startService(intent);
+            //NoteToPdf.noteToPdf(note.getId(), OpenHelper.getDatabase(getApplicationContext()), getApplicationContext());
+            //Toast.makeText(NoteViewActivity.this, "PDF Successful", Toast.LENGTH_SHORT).show();
         }
 
         private void labels() {
@@ -233,6 +244,8 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
                     dismiss();
                 } else if (v.getId() == R.id.content_note_view_toolbar_edit) {
                     edit();
+                } else if (v.getId() == R.id.content_note_view_toolbar_to_pdf) {
+                    toPdf();
                 } else if (v.getId() == R.id.content_note_view_toolbar_labels) {
                     labels();
                 } else if (v.getId() == R.id.content_note_view_toolbar_info) {

@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -47,8 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".main.SyncActivity"/>
+        <activity android:name=".main.SyncActivity" />
 
         <!--
 Service handling Google Sign-In user revocation. For apps that do not integrate with
@@ -74,19 +73,25 @@ Service handling Google Sign-In user revocation. For apps that do not integrate 
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask">
             <intent-filter>
-
                 <data android:scheme="db-4y76xyq70frs0yf" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".main.PortActivity" />
         <activity android:name=".revision.RevisionPastListActivity" />
-        <activity android:name=".note.NoteListActivity"/>
-        <service android:name=".main.SyncService"
-            android:exported="false"/>
+        <activity android:name=".note.NoteListActivity" />
+
+        <service
+            android:name=".main.SyncService"
+            android:exported="false" />
+        <service
+            android:name=".note.NoteToPdfService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

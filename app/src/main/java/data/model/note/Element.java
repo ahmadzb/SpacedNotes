@@ -97,6 +97,10 @@ public abstract class Element {
 
     //========================================= Utils ==============================================
 
+    public static PositionComparator getPositionComparator() {
+        return new PositionComparator();
+    }
+
     public static class PositionComparator implements Comparator<Element> {
         @Override
         public int compare(Element o1, Element o2) {

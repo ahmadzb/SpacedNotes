@@ -56,6 +56,17 @@ public class Colors {
         return typedValue.data;
     }
 
+    public static int getR(int color) {
+        return (color & 0x00ff0000) >> 16;
+    }
+
+    public static int getG(int color) {
+        return (color & 0x0000ff00) >> 8;
+    }
+
+    public static int getB(int color) {
+        return color & 0x000000ff;
+    }
 
     public static class ColorCache{
         public final int primaryColor;

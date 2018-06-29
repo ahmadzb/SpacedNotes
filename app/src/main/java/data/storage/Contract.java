@@ -16,6 +16,7 @@ public class Contract {
         public static final String logFileZipped = "logFileZipped.zip";
         public static final String portFileZipped = "portFileZipped.zip";
     }
+
     public static class InternalDirectory {
         public static final String profilesFile = "profiles.xml";
         public static final String progressFile = "progress.xml";
@@ -31,7 +32,7 @@ public class Contract {
         public static class Log {
             public static final String directoryName = "log";
 
-            public static class Port{
+            public static class Port {
                 public static final String directoryNamePrefix = "port";
 
                 public static final String logFilePrefix = "log";
@@ -53,6 +54,16 @@ public class Contract {
             public static final String captureFilePrefixId = "cID";
             public static final String captureFileCOC = "COC";
             public static final String captureFileSuffix = ".zip";
+        }
+    }
+
+    public static class ExternalExportDirectory {
+        public static final String directoryName = "SpacedNotesExports";
+
+
+        public static class PdfFiles {
+            public static final String directoryName = "PdfFiles";
+
         }
     }
 }
