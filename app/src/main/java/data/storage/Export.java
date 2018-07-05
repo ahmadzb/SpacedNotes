@@ -17,8 +17,8 @@ import util.datetime.format.DateTimeFormat;
 public class Export {
     public static File getExportDirectory() {
         String directoryName = Contract.ExternalExportDirectory.directoryName;
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-                Contract.ExternalDirectory.directoryName + File.separator + directoryName;
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + directoryName;
         File file = new File(path);
         file.mkdirs();
         return file;
@@ -30,9 +30,9 @@ public class Export {
         return file;
     }
 
-    public static File getPDFFile(Context context, long noteId) {
+    public static File getPDFFile(Context context, long noteId, long profileId) {
         LocalDate date = new LocalDate(ChronologyCatalog.getCurrentChronology(context));
         String datePrefix = DateTimeFormat.forPattern("yyyy_MM_dd_", context.getResources()).print(date);
-        return new File(getPdfFilesDirectory(), datePrefix + noteId + ".pdf");
+        return new File(getPdfFilesDirectory(), datePrefix + profileId + "_" + noteId + ".pdf");
     }
 }

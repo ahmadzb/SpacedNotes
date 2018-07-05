@@ -1,20 +1,20 @@
 package data.pdf;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.tom_roush.pdfbox.pdmodel.PDDocument;
-import com.tom_roush.pdfbox.pdmodel.PDPage;
-import com.tom_roush.pdfbox.pdmodel.PDPageContentStream;
-import com.tom_roush.pdfbox.pdmodel.common.PDRectangle;
-import com.tom_roush.pdfbox.pdmodel.font.PDFont;
-import com.tom_roush.pdfbox.pdmodel.font.PDTrueTypeFont;
-import com.tom_roush.pdfbox.pdmodel.font.PDType1Font;
-import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject;
-
-import org.apache.commons.lang3.RandomStringUtils;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,17 +45,20 @@ public class NoteToPdf {
 
     public static File noteToPdf(long noteId, SQLiteDatabase readableDb, Context context, TaskProgress progress) {
         Cache cache = new Cache();
-        PDDocument document = new PDDocument();
-        cache.pdfFonts = new PdfFonts(document, context.getAssets());
+        cache.assetManager = context.getAssets();
         cache.contentWidth = ElementsToPdf.width;
         cache.currentProfile = ProfileCatalog.getCurrentProfile(context);
-        File destination = Export.getPDFFile(context, noteId);
+        File destination = Export.getPDFFile(context, noteId, cache.currentProfile.getId());
+        destination.delete();
         try {
+            PdfDocument document = new PdfDocument();
             ArrayList<ElementsModel.Element> elements = NoteToElements.convert(noteId, cache, readableDb, progress);
             ElementsToPdf.convert(document, elements, progress);
             progress.setStatus("Saving PDF file");
-            document.save(destination);
+            FileOutputStream outputStream = new FileOutputStream(destination);
+            document.writeTo(outputStream);
             document.close();
+            outputStream.close();
             progress.setStatus("PDF created successfully");
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,27 +75,36 @@ public class NoteToPdf {
         private static final float width = absoluteWidth - margin * 2;
         private static final float maxHeight = absoluteMaxHeight - margin * 2;
 
-        private static void convert(PDDocument document, ArrayList<ElementsModel.Element> elements, TaskProgress progress) throws IOException {
-            ArrayList<PageElements> pageElementsList = generatePageElements(document, elements);
+        private static void convert(PdfDocument document, ArrayList<ElementsModel.Element> elements, TaskProgress progress) throws IOException {
+            ArrayList<PageElements> pageElementsList = generatePageElements(elements);
             progress.setStatus("Generating PDF");
+            int pageNumber = 1;
             for (PageElements pageElements : pageElementsList) {
-                writeElements(document, pageElements);
+                PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(
+                        (int) (absoluteWidth + 1),
+                        (int) (pageElements.height + 1 + margin * 2),
+                        pageNumber).create();
+                PdfDocument.Page page = document.startPage(pageInfo);
+                pageElements.canvas = page.getCanvas();
+                writeElements(pageElements);
+                document.finishPage(page);
+                pageNumber++;
             }
-            document.addPage(new PDPage(new PDRectangle(1, 1)));
         }
 
-        private static ArrayList<PageElements> generatePageElements(PDDocument document, ArrayList<ElementsModel.Element> elements) throws IOException {
+        private static ArrayList<PageElements> generatePageElements(
+                ArrayList<ElementsModel.Element> elements){
             ArrayList<PageElements> pageElements = new ArrayList<>();
             PageElements currentPageElements = new PageElements();
             for (ElementsModel.Element element : elements) {
-                float elementHeight = calculateElementHeight(document, element);
-                float delta = currentPageElements.height + elementHeight - maxHeight;
+                element.setHeight(measureElementHeight(element));
+                float delta = currentPageElements.height + element.getHeight() - maxHeight;
                 if (!Numbers.isSmall(delta) && delta > 0) {
                     pageElements.add(currentPageElements);
                     currentPageElements = new PageElements();
                 }
                 currentPageElements.elements.add(element);
-                currentPageElements.height += elementHeight;
+                currentPageElements.height += element.getHeight();
             }
             if (!Numbers.isPreciseSmall(currentPageElements.height)) {
                 pageElements.add(currentPageElements);
@@ -100,17 +112,17 @@ public class NoteToPdf {
             return pageElements;
         }
 
-        private static float calculateElementHeight(PDDocument document, ElementsModel.Element element) throws IOException {
+        private static float measureElementHeight(ElementsModel.Element element) {
             if (element instanceof ElementsModel.TextElement) {
                 ElementsModel.TextElement textElement = (ElementsModel.TextElement) element;
-                return textElement.size * 1.5f + textElement.indentVertical;
+                return textElement.paint.getTextSize() * 1.5f + textElement.indentVertical;
             } else if (element instanceof ElementsModel.PictureElement) {
                 ElementsModel.PictureElement pictureElement = (ElementsModel.PictureElement) element;
-                PDImageXObject imageXObject = pictureElement.getPdImage(document);
-                if (imageXObject == null || imageXObject.getWidth() == 0) {
+                Bitmap bitmap = pictureElement.getBitmap();
+                if (bitmap == null || bitmap.getWidth() == 0) {
                     return 0;
                 } else {
-                    float height = imageXObject.getHeight() * width / imageXObject.getWidth();
+                    float height = bitmap.getHeight() * width / bitmap.getWidth();
                     return Math.min(height, maxHeight);
                 }
             } else if (element instanceof ElementsModel.DividerElement) {
@@ -118,7 +130,7 @@ public class NoteToPdf {
                 if (dividerElement.text == null || dividerElement.text.isEmpty()) {
                     return 40f;
                 } else {
-                    return 20f + dividerElement.size * 1.5f;
+                    return 20f + dividerElement.paint.getTextSize() * 1.5f;
                 }
             } else {
                 throw new RuntimeException("pdf element was not recognized");
@@ -127,107 +139,102 @@ public class NoteToPdf {
 
         private static class PageElements {
             public PageElements() {
-                elements = new ArrayList<>();
+                this.elements = new ArrayList<>();
+                this.startY = margin;
             }
-
-            PDPage page;
-
-            float startY;
-
-            float currentTextX;
-            float currentTextY;
-
-            boolean isInTextBlock;
 
             float height;
             ArrayList<ElementsModel.Element> elements;
 
-            float moveTextToX(float positionX) {
-                float delta = positionX - currentTextX;
-                currentTextX = positionX;
-                return delta;
-            }
-
-            float moveTextToY(float positionY) {
-                float delta = positionY - currentTextY;
-                currentTextY = positionY;
-                return delta;
-            }
-
-            float moveTextByX(float delta) {
-                currentTextX += delta;
-                return currentTextX;
-            }
-
-            float moveTextByY(float delta) {
-                currentTextY += delta;
-                return currentTextY;
-            }
+            Canvas canvas;
+            float startY;
         }
 
-        private static void writeElements(PDDocument document, PageElements pageElements) throws IOException {
-            pageElements.page = new PDPage(new PDRectangle(absoluteWidth, pageElements.height + margin * 2));
-            document.addPage(pageElements.page);
-            PDPageContentStream contentStream = new PDPageContentStream(document, pageElements.page);
-            pageElements.startY = pageElements.page.getMediaBox().getHeight() - margin;
+        private static void writeElements(PageElements pageElements) {
             for (ElementsModel.Element element : pageElements.elements) {
                 if (element instanceof ElementsModel.TextElement) {
                     ElementsModel.TextElement textElement = (ElementsModel.TextElement) element;
-                    writeTextElement(textElement, document, pageElements, contentStream);
+                    writeTextElement(textElement, pageElements);
                 } else if (element instanceof ElementsModel.PictureElement) {
                     ElementsModel.PictureElement pictureElement = (ElementsModel.PictureElement) element;
-                    writePictureElement(pictureElement, document, pageElements, contentStream);
+                    writePictureElement(pictureElement, pageElements);
+                } else if (element instanceof ElementsModel.DividerElement) {
+                    ElementsModel.DividerElement dividerElement = (ElementsModel.DividerElement) element;
+                    writeDividerElement(dividerElement, pageElements);
                 }
             }
-            if (pageElements.isInTextBlock) {
-                contentStream.endText();
-            }
-            contentStream.close();
         }
 
-        private static void writeTextElement(ElementsModel.TextElement textElement, PDDocument document,
-                                             PageElements pageElements,
-                                             PDPageContentStream contentStream) throws IOException {
-            float deltaY = calculateElementHeight(document, textElement);
-            pageElements.startY -= deltaY - 10;
-            if (!pageElements.isInTextBlock) {
-                contentStream.beginText();
-                pageElements.isInTextBlock = true;
-                pageElements.currentTextY = 0;
-                pageElements.currentTextX = 0;
-            }
-            contentStream.newLineAtOffset(
-                    pageElements.moveTextToX(margin + textElement.indentHorizontal),
-                    pageElements.moveTextToY(pageElements.startY));
-            pageElements.startY -= 10;
-
-            contentStream.setNonStrokingColor(Colors.getR(textElement.color),
-                    Colors.getG(textElement.color), Colors.getB(textElement.color));
-            try {
-                contentStream.setFont(textElement.font, textElement.size);
-                contentStream.showText(textElement.text);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        private static void writeTextElement(
+                ElementsModel.TextElement textElement, PageElements pageElements) {
+            pageElements.canvas.drawText(
+                    textElement.text,
+                    margin + textElement.indentHorizontal,
+                    pageElements.startY + textElement.getHeight() - 15f,
+                    textElement.paint);
+            pageElements.startY += textElement.getHeight();
         }
 
-        private static void writePictureElement(ElementsModel.PictureElement pictureElement, PDDocument document,
-                                                PageElements pageElements,
-                                                PDPageContentStream contentStream) throws IOException {
-            if (pageElements.isInTextBlock) {
-                contentStream.endText();
-                pageElements.isInTextBlock = false;
+        private static void writePictureElement(
+                ElementsModel.PictureElement pictureElement, PageElements pageElements) {
+            Bitmap bitmap = pictureElement.getBitmap();
+            if (bitmap != null) {
+                float scale = pictureElement.getHeight() / pictureElement.getBitmap().getHeight();
+                float rectWidth = pictureElement.getBitmap().getWidth() * scale;
+                float rectHeight = pictureElement.getHeight();
+                Rect rect = new Rect(
+                        (int) (margin + (width - rectWidth) / 2),
+                        (int) (pageElements.startY),
+                        (int) (margin + width - (width - rectWidth) / 2),
+                        (int) (pageElements.startY + rectHeight)
+                );
+                pageElements.canvas.drawBitmap(bitmap, null, rect, pictureElement.paint);
             }
-            int pHeight = (int) calculateElementHeight(document, pictureElement);
-            PDImageXObject image = pictureElement.getPdImage(document);
-            pageElements.startY -= pHeight;
-
-            if (image != null) {
-                int pWidth = image.getWidth() * pHeight / image.getHeight();
-                float x = (width - pWidth) / 2 + margin;
-                contentStream.drawImage(image, x, pageElements.startY, pWidth, pHeight);
-            }
+            pageElements.startY += pictureElement.getHeight();
         }
+
+        private static void writeDividerElement(
+                ElementsModel.DividerElement dividerElement, PageElements pageElements) {
+            if (dividerElement.divider == ElementsModel.DividerElement.DIVIDER_LINE) {
+                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(0x88000000);
+                paint.setStrokeWidth(1f);
+                paint.setStyle(Paint.Style.STROKE);
+                pageElements.canvas.drawLine(margin, pageElements.startY + 10f,
+                        margin + width, pageElements.startY + 10f, paint);
+            } else if (dividerElement.divider == ElementsModel.DividerElement.DIVIDER_DASH_LINE) {
+                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setColor(0x88000000);
+                paint.setStrokeWidth(1f);
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setPathEffect(new DashPathEffect(new float[]{20, 20}, 0));
+                pageElements.canvas.drawLine(margin, pageElements.startY + 10f,
+                        margin + width, pageElements.startY + 10f, paint);
+            } else if (dividerElement.divider == ElementsModel.DividerElement.DIVIDER_SPACE) {
+                //Nothing to do
+            } else if (dividerElement.divider == ElementsModel.DividerElement.DIVIDER_TITLE) {
+                pageElements.canvas.drawText(
+                        dividerElement.text,
+                        margin + 15f,
+                        pageElements.startY + dividerElement.getHeight() - 15f,
+                        dividerElement.paint);
+            } else if (dividerElement.divider == ElementsModel.DividerElement.DIVIDER_TITLE_BACKGROUND) {
+                Paint backgroundPaint = new Paint();
+                backgroundPaint.setColor(0x22000000);
+                backgroundPaint.setStyle(Paint.Style.FILL);
+                pageElements.canvas.drawRect(
+                        new Rect((int) margin, (int) pageElements.startY, (int) (margin + width),
+                                (int) (pageElements.startY + dividerElement.getHeight())),
+                        backgroundPaint);
+                pageElements.canvas.drawText(
+                        dividerElement.text,
+                        margin + 15f,
+                        pageElements.startY  + dividerElement.getHeight() - 15f,
+                        dividerElement.paint);
+            }
+            pageElements.startY += dividerElement.getHeight();
+        }
+
     }
 
     private static class NoteToElements {
@@ -250,12 +257,12 @@ public class NoteToPdf {
                     ElementText text = (ElementText) noteElement;
                     data.model.type.Element.TextInterpreter interpreter =
                             (data.model.type.Element.TextInterpreter) typeElement.getInterpreter();
-                    pdfElements.addAll(getTextElements(text, interpreter, cache.pdfFonts, cache.contentWidth));
+                    pdfElements.addAll(getTextElements(text, interpreter, cache.assetManager, cache.contentWidth));
                 } else if (noteElement instanceof ElementList) {
                     ElementList list = (ElementList) noteElement;
                     data.model.type.Element.ListInterpreter interpreter =
                             (data.model.type.Element.ListInterpreter) typeElement.getInterpreter();
-                    pdfElements.addAll(getListElements(list, interpreter, cache.pdfFonts, cache.contentWidth));
+                    pdfElements.addAll(getListElements(list, interpreter, cache.assetManager, cache.contentWidth));
                 } else if (noteElement instanceof ElementPicture) {
                     ElementPicture picture = (ElementPicture) noteElement;
                     data.model.type.Element.PictureInterpreter interpreter =
@@ -265,19 +272,30 @@ public class NoteToPdf {
                     ElementDivider divider = (ElementDivider) noteElement;
                     data.model.type.Element.DividerInterpreter interpreter =
                             (data.model.type.Element.DividerInterpreter) typeElement.getInterpreter();
-                    pdfElements.add(getDividerElement(typeElement, interpreter, cache.pdfFonts));
+                    pdfElements.add(getDividerElement(typeElement, interpreter, cache.assetManager));
                 }
             }
             return pdfElements;
         }
 
         private static ArrayList<ElementsModel.Element> getTextElements(
-                ElementText text, data.model.type.Element.TextInterpreter interpreter, PdfFonts fonts,
+                ElementText text, data.model.type.Element.TextInterpreter interpreter, AssetManager assets,
                 float lineWidth) throws IOException {
             ArrayList<ElementsModel.Element> elements = new ArrayList<>();
             float indent = interpreter.getTextSize() * 2;
-            PDFont font = fonts.getFontOrDefault(interpreter.getFontName());
-            ArrayList<TextLine> lines = toTextLines(text.getText(), font, interpreter.getTextSize(), lineWidth, indent);
+            Paint paint;
+            {
+                paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                Typeface typeface = TypeFaceUtils.getFont(assets, interpreter.getFontName());
+                int style = 0;
+                if (interpreter.isBold()) style |= Typeface.BOLD;
+                if (interpreter.isItalic()) style |= Typeface.ITALIC;
+                typeface = Typeface.create(typeface, style);
+                paint.setTypeface(typeface);
+                paint.setColor(interpreter.getColor());
+                paint.setTextSize(interpreter.getTextSize());
+            }
+            ArrayList<TextLine> lines = toTextLines(text.getText(), paint, interpreter.getTextSize(), lineWidth, indent);
             for (TextLine line : lines) {
                 ElementsModel.TextElement textElement = new ElementsModel.TextElement();
                 textElement.text = line.text;
@@ -287,25 +305,32 @@ public class NoteToPdf {
                 if (line.isFirstLine()) {
                     textElement.indentVertical = interpreter.getTextSize() * 0.8f;
                 }
-                textElement.font = font;
-                textElement.bold = interpreter.isBold();
-                textElement.italic = interpreter.isItalic();
-                textElement.color = interpreter.getColor();
-                textElement.size = interpreter.getTextSize();
+                textElement.paint = paint;
                 elements.add(textElement);
             }
             return elements;
         }
 
         private static ArrayList<ElementsModel.Element> getListElements(
-                ElementList list, data.model.type.Element.ListInterpreter interpreter, PdfFonts fonts,
+                ElementList list, data.model.type.Element.ListInterpreter interpreter, AssetManager assets,
                 float lineWidth) throws IOException {
             ArrayList<ElementsModel.Element> elements = new ArrayList<>();
             float indent = interpreter.getTextSize() * 2;
-            PDFont font = fonts.getFontOrDefault(interpreter.getFontName());
+            Paint paint;
+            {
+                paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                Typeface typeface = TypeFaceUtils.getFont(assets, interpreter.getFontName());
+                int style = 0;
+                if (interpreter.isBold()) style |= Typeface.BOLD;
+                if (interpreter.isItalic()) style |= Typeface.ITALIC;
+                typeface = Typeface.create(typeface, style);
+                paint.setTypeface(typeface);
+                paint.setColor(interpreter.getColor());
+                paint.setTextSize(interpreter.getTextSize());
+            }
             for (int i = 0; i < list.getItemCount(); i++) {
                 ElementList.ListItem listItem = list.getItemAt(i);
-                ArrayList<TextLine> lines = toTextLines(listItem.getText(), font, interpreter.getTextSize(), lineWidth, indent);
+                ArrayList<TextLine> lines = toTextLines(listItem.getText(), paint, interpreter.getTextSize(), lineWidth, indent);
                 for (TextLine line : lines) {
                     ElementsModel.TextElement textElement = new ElementsModel.TextElement();
                     textElement.text = line.text;
@@ -313,18 +338,14 @@ public class NoteToPdf {
                         textElement.indentHorizontal = indent;
                         textElement.indentVertical = interpreter.getTextSize() * 0.8f;
                         if (interpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_BULLETS) {
-                            textElement.text = "- " + textElement.text;
+                            textElement.text = "• " + textElement.text;
                         } else if (interpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_BULLETS_EMPTY) {
-                            textElement.text = "- " + textElement.text;
+                            textElement.text = "○ " + textElement.text;
                         } else if (interpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_NUMBERS) {
                             textElement.text = TypeFaceUtils.withNumberFormat(i + 1) + ". " + textElement.text;
                         }
                     }
-                    textElement.font = font;
-                    textElement.bold = interpreter.isBold();
-                    textElement.italic = interpreter.isItalic();
-                    textElement.color = interpreter.getColor();
-                    textElement.size = interpreter.getTextSize();
+                    textElement.paint = paint;
                     elements.add(textElement);
                 }
             }
@@ -332,7 +353,7 @@ public class NoteToPdf {
         }
 
         private static ElementsModel.Element getDividerElement(
-                data.model.type.Element element, data.model.type.Element.DividerInterpreter interpreter, PdfFonts fonts) {
+                data.model.type.Element element, data.model.type.Element.DividerInterpreter interpreter, AssetManager assets) {
             ElementsModel.DividerElement dividerElement = new ElementsModel.DividerElement();
             boolean hasText = false;
             if (interpreter.getDividerType() == data.model.type.Element.DividerInterpreter.DIVIDER_TYPE_LINE) {
@@ -352,27 +373,32 @@ public class NoteToPdf {
             }
             if (hasText) {
                 dividerElement.text = element.getTitle();
-                dividerElement.font = fonts.getFontOrDefault(interpreter.getFontName());
-                dividerElement.bold = interpreter.isBold();
-                dividerElement.italic = interpreter.isItalic();
-                dividerElement.color = interpreter.getColor();
-                dividerElement.size = interpreter.getTextSize();
+                dividerElement.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                Typeface typeface = TypeFaceUtils.getFont(assets, interpreter.getFontName());
+                int style = 0;
+                if (interpreter.isBold()) style |= Typeface.BOLD;
+                if (interpreter.isItalic()) style |= Typeface.ITALIC;
+                typeface = Typeface.create(typeface, style);
+                dividerElement.paint.setTypeface(typeface);
+                dividerElement.paint.setColor(interpreter.getColor());
+                dividerElement.paint.setTextSize(interpreter.getTextSize());
             }
             return dividerElement;
         }
 
         private static ArrayList<ElementsModel.Element> getPictureElements(ElementPicture picture, Profile currentProfile) {
             ArrayList<ElementsModel.Element> pictureElements = new ArrayList<>();
-            for (int i = 0; i < picture.getItemCount(); i++){
+            for (int i = 0; i < picture.getItemCount(); i++) {
                 ElementPicture.PictureItem item = picture.getItemAt(i);
                 ElementsModel.PictureElement pictureElement = new ElementsModel.PictureElement();
                 pictureElement.pictureFile = Pictures.getPictureFile(currentProfile, item.getPictureId());
+                pictureElement.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 pictureElements.add(pictureElement);
             }
             return pictureElements;
         }
 
-        private static ArrayList<TextLine> toTextLines(String text, PDFont font, int fontSize, float lineWidth, float indent)
+        private static ArrayList<TextLine> toTextLines(String text, Paint paint, int fontSize, float lineWidth, float indent)
                 throws IOException {
             ArrayList<TextLine> lines = new ArrayList<>();
             String[] paragraphs = text.split("\n");
@@ -392,7 +418,7 @@ public class NoteToPdf {
                         remainText.replace(0, spaceIndex + 1, "");
                     }
                     String testLine = nextLineText.toString() + nextWord;
-                    float size = fontSize * font.getStringWidth(testLine) / 1000;
+                    float size = paint.measureText(testLine);
                     if (firstLine) {
                         size += indent;
                     }
@@ -449,7 +475,7 @@ public class NoteToPdf {
     }
 
     private static class Cache {
-        PdfFonts pdfFonts;
+        AssetManager assetManager;
         float contentWidth;
         Profile currentProfile;
     }
@@ -457,28 +483,52 @@ public class NoteToPdf {
     private static class ElementsModel {
 
         private interface Element {
+            float getHeight();
 
+            void setHeight(float height);
         }
 
         private static class TextElement implements Element {
             private String text;
             private float indentHorizontal;
             private float indentVertical;
-            private int color;
-            private int size;
-            private boolean bold;
-            private boolean italic;
-            private PDFont font;
+            private Paint paint;
+            private float height;
+
+            @Override
+            public float getHeight() {
+                return height;
+            }
+
+            @Override
+            public void setHeight(float height) {
+                this.height = height;
+            }
         }
 
         private static class PictureElement implements Element {
             private File pictureFile;
-            private PDImageXObject pdImage;
-            PDImageXObject getPdImage(PDDocument document) throws IOException {
-                if (pdImage == null) {
-                    pdImage = PDImageXObject.createFromFile(pictureFile.getAbsolutePath(), document);
+            private Bitmap bitmap;
+            private Paint paint;
+            private float height;
+
+            private Bitmap getBitmap() {
+                if (bitmap == null) {
+                    if (pictureFile != null && pictureFile.exists()) {
+                        bitmap = BitmapFactory.decodeFile(pictureFile.getAbsolutePath());
+                    }
                 }
-                return pdImage;
+                return bitmap;
+            }
+
+            @Override
+            public float getHeight() {
+                return height;
+            }
+
+            @Override
+            public void setHeight(float height) {
+                this.height = height;
             }
         }
 
@@ -490,13 +540,19 @@ public class NoteToPdf {
             public static final int DIVIDER_TITLE_BACKGROUND = 4;
 
             private int divider;
-
             private String text;
-            private int color;
-            private int size;
-            private boolean bold;
-            private boolean italic;
-            private PDFont font;
+            private Paint paint;
+            private float height;
+
+            @Override
+            public float getHeight() {
+                return height;
+            }
+
+            @Override
+            public void setHeight(float height) {
+                this.height = height;
+            }
         }
     }
 }

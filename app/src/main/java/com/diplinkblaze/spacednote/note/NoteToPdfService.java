@@ -3,6 +3,7 @@ package com.diplinkblaze.spacednote.note;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -20,7 +21,7 @@ public class NoteToPdfService extends IntentService implements TaskProgress {
 
     private static final int BROADCAST_INTENT_EXPORT_STATE = 1;
     private static final String KEY_BROADCAST_INTENT_TAG = "broadcastIntentTag";
-    private static final String INTENT_EXPORT_ACTION = "com.diplinkblaze.spacednote.exportIntent";
+    private static final String INTENT_EXPORT_ACTION = "com.diplinkblaze.spacednote.noteToPdfIntent";
 
     private static final int MODE_SINGLE = 0;
     private static final int MODE_BATCH = 1;
@@ -44,6 +45,12 @@ public class NoteToPdfService extends IntentService implements TaskProgress {
         intent.putExtra(KEY_MODE, MODE_BATCH);
         intent.putExtra(KEY_NOTE_SELECTOR, noteSelector);
         return intent;
+    }
+
+    public static IntentFilter getBroadcastIntentFilter() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(INTENT_EXPORT_ACTION);
+        return intentFilter;
     }
 
     public NoteToPdfService() {
@@ -114,6 +121,15 @@ public class NoteToPdfService extends IntentService implements TaskProgress {
 
     public static synchronized ExportState getExportState() {
         return exportState;
+    }
+
+    public static boolean isBroadcastIntentExportState(Intent intent) {
+        boolean result = false;
+        if (intent != null && intent.getExtras() != null) {
+            int tag = intent.getIntExtra(KEY_BROADCAST_INTENT_TAG, -1);
+            result = tag == BROADCAST_INTENT_EXPORT_STATE;
+        }
+        return result;
     }
 
     public static class ExportState {

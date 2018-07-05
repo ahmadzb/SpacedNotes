@@ -1,6 +1,7 @@
 package com.diplinkblaze.spacednote.note;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,6 +66,8 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
     private static final int ACTIVITY_REQUEST_NOTE_EDIT = 0;
     private static final int ACTIVITY_REQUEST_REVISION_PASTS_LIST = 1;
 
+    private ExportBroadcastReceiver exportBroadcastReceiver = new ExportBroadcastReceiver();
+
     private ActionBar actionBar = new ActionBar();
     private ScheduleControls scheduleControls = new ScheduleControls();
 
@@ -94,6 +97,18 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
         labels = LabelCatalog.getLabelsByNote(note.getId(), database);
         initializeViews(savedInstanceState);
         updateViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(exportBroadcastReceiver, NoteToPdfService.getBroadcastIntentFilter());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(exportBroadcastReceiver);
     }
 
     private void initializeViews(Bundle savedInstanceState) {
@@ -756,5 +771,27 @@ public class NoteViewActivity extends NoActionbarActivity implements ContentUpda
     public void onNoteDrawerInstanceChanged(NoteDrawerFragment.NoteDrawerInstance noteDrawerInstance) {
         labels = noteDrawerInstance.getLabels();
         updateViews();
+    }
+
+    //========================================= Broadcasts ===========================================
+
+    private class ExportBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (NoteToPdfService.isBroadcastIntentExportState(intent)) {
+                onExportStateChanged();
+            }
+        }
+    }
+
+    private void onExportStateChanged() {
+        int state = NoteToPdfService.getExportState().getExportState();
+        if (state == NoteToPdfService.ExportState.EXPORT_STATE_FINISHED) {
+            Toast.makeText(this, "Pdf Successful", Toast.LENGTH_SHORT).show();
+        } else if (state == NoteToPdfService.ExportState.EXPORT_STATE_FAILURE) {
+            Toast.makeText(this, "Pdf Failed", Toast.LENGTH_SHORT).show();
+        } else if (state == NoteToPdfService.ExportState.EXPORT_STATE_RUNNING) {
+            Toast.makeText(this, "Creating Pdf", Toast.LENGTH_SHORT).show();
+        }
     }
 }
