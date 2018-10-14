@@ -330,7 +330,7 @@ public class NoteToPdf {
             }
             for (int i = 0; i < list.getItemCount(); i++) {
                 ElementList.ListItem listItem = list.getItemAt(i);
-                ArrayList<TextLine> lines = toTextLines(listItem.getText(), paint, interpreter.getTextSize(), lineWidth, indent);
+                ArrayList<TextLine> lines = toTextLines(listItem.getDisplayText(), paint, interpreter.getTextSize(), lineWidth, indent);
                 for (TextLine line : lines) {
                     ElementsModel.TextElement textElement = new ElementsModel.TextElement();
                     textElement.text = line.text;

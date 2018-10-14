@@ -155,10 +155,12 @@ public class AveUtil {
                 R.string.divider_type_space};
         private static int[] listTypes = {Element.ListInterpreter.LIST_TYPE_BULLETS,
                 Element.ListInterpreter.LIST_TYPE_BULLETS_EMPTY,
-                Element.ListInterpreter.LIST_TYPE_NUMBERS};
+                Element.ListInterpreter.LIST_TYPE_NUMBERS,
+                Element.ListInterpreter.LIST_TYPE_NAME_VALUE};
         private static int[] listTypeNames = {R.string.list_type_bullets,
                 R.string.list_type_bullets_empty,
-                R.string.list_type_numbers};
+                R.string.list_type_numbers,
+                R.string.list_type_name_value};
 
         public static AveComponentSet create(@NonNull Element element, Resources resources) {
             if (element.getPattern() == Element.PATTERN_TEXT) {
@@ -392,6 +394,8 @@ public class AveUtil {
                         choiceComponent.currentPosition = 1;
                     else if (listType == Element.ListInterpreter.LIST_TYPE_NUMBERS)
                         choiceComponent.currentPosition = 2;
+                    else if (listType == Element.ListInterpreter.LIST_TYPE_NAME_VALUE)
+                        choiceComponent.currentPosition = 3;
                 }
                 componentSet.components.add(choiceComponent);
             }

@@ -58,6 +58,7 @@ public class NoteElementOperations {
                     item.setDataId(noteData.id);
                     item.setPosition((int) (long) noteData.data1);
                     item.setText(noteData.data3);
+                    item.setSecondText(noteData.data4);
 
                     ElementList list = (ElementList) element;
                     list.addItem(item);
@@ -140,6 +141,7 @@ public class NoteElementOperations {
                         noteData.pattern = Element.PATTERN_LIST_ITEM;
                         noteData.data1 = (long) (int) item.getPosition();
                         noteData.data3 = item.getText();
+                        noteData.data4 = item.getSecondText();
                         item.setDataId(writableDb.insert(Contract.NoteData.table, null, getNoteDataContentValues(noteData)));
                     }
                 } else if (element instanceof ElementPicture) {

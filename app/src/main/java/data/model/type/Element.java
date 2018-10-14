@@ -367,6 +367,7 @@ public class Element {
         public static final int LIST_TYPE_NUMBERS = 0b00000;
         public static final int LIST_TYPE_BULLETS = 0b00001;
         public static final int LIST_TYPE_BULLETS_EMPTY = 0b00010;
+        public static final int LIST_TYPE_NAME_VALUE = 0b00011;
 
         public static final int LENGTH_LIST_TYPE = 5;
 

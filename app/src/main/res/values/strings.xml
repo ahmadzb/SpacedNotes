@@ -68,6 +68,8 @@
     <string name="list_type_bullets">Bullets</string>
     <string name="list_type_bullets_empty">Empty Bullets</string>
     <string name="list_type_numbers">Numbers</string>
+    <string name="list_type_name_value">Name-Value</string>
+    <string name="list_type_name_value_with_sum">Name-Value with sum</string>
     <string name="divider_type_line">Line</string>
     <string name="divider_type_dashed_line">Dashed Line</string>
     <string name="divider_type_title">Title</string>

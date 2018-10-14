@@ -196,21 +196,32 @@ public class NoteContentViewFragment extends Fragment implements ContentUpdateLi
             ElementList.ListItem listItem = listItems.get(i);
             View listItemView = inflater.inflate(R.layout.partial_note_view_list_item, listLayout, false);
             TextView listItemText = listItemView.findViewById(R.id.partial_note_view_list_item_text);
+            TextView listItemValue = listItemView.findViewById(R.id.partial_note_view_list_item_value);
             TextView listItemSymbol = listItemView.findViewById(R.id.partial_note_view_list_item_symbol);
             listItemText.setText(listItem.getText());
+            if (listItem.getSecondText() != null) {
+                listItemValue.setText(listItem.getSecondText());
+            }
+            boolean hasValue = false;
             if (listInterpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_BULLETS) {
                 listItemSymbol.setText("•");
             } else if (listInterpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_BULLETS_EMPTY) {
                 listItemSymbol.setText("○");
             } else if (listInterpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_NUMBERS) {
                 listItemSymbol.setText(TypeFaceUtils.withNumberFormat(i + 1));
+            } else if (listInterpreter.getListType() == data.model.type.Element.ListInterpreter.LIST_TYPE_NAME_VALUE) {
+                listItemSymbol.setText("#");
+                hasValue = true;
             }
-            for (int j = 0; j < 2; j++) {
+            listItemValue.setVisibility(hasValue? View.VISIBLE : View.INVISIBLE);
+            for (int j = 0; j < 3; j++) {
                 TextView textView;
                 if (j == 0)
                     textView = listItemText;
-                else
+                else if (j == 1)
                     textView = listItemSymbol;
+                else
+                    textView = listItemValue;
                 textView.setTextColor(listInterpreter.getColor());
                 textView.setTypeface(TypeFaceUtils.getFont(getResources().getAssets(), listInterpreter.getFontName()));
                 textView.setTextSize(listInterpreter.getTextSize());

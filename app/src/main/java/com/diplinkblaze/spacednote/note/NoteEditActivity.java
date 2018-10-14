@@ -875,18 +875,20 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
     private class ListElement extends ElementModule {
         private final String KEY_LIST_ITEM_COUNT = "listItemCount";
         private final String KEY_LIST_ITEM_TEXT = "listItemText";
+        private final String KEY_LIST_ITEM_TEXT_SECOND = "listItemTextSecond";
 
         private TreeMap<Long, OnListTextChanged> textChangedTreeMap = new TreeMap<>();
 
         @Override
         public View createFrameView(LayoutInflater inflater, ElementBundle elementBundle, ViewGroup parent) {
-            DragLinearLayout listFrame = (DragLinearLayout) inflater.inflate(
+            View layout = inflater.inflate(
                     R.layout.partial_note_list_container, parent, false);
+            DragLinearLayout listFrame = layout.findViewById(R.id.partial_note_list_container_frame);
             Element.ListInterpreter interpreter = (Element.ListInterpreter) elementBundle.typeElement.getInterpreter();
             if (interpreter.getListType() == Element.ListInterpreter.LIST_TYPE_NUMBERS) {
                 listFrame.setOnViewSwapListener(new OnSwapNumbersUpdate(elementBundle.typeElement));
             }
-            return listFrame;
+            return layout;
         }
 
         @Override
@@ -922,6 +924,11 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                         View itemView = addNewItem(elementBundle, inflater, frame);
                         EditText text = itemView.findViewById(R.id.partial_note_list_item_text);
                         text.setText(item.getText());
+                        if (item.getSecondText() != null) {
+                            EditText value = itemView.findViewById(R.id.partial_note_list_item_value);
+                            value.setText(item.getSecondText());
+                        }
+
                     }
                 }
                 getListTextChanged(elementBundle).isLayoutLoaded = true;
@@ -944,12 +951,21 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             ViewGroup elementView = elementBundle.elementView.findViewById(R.id.partial_note_list_container_frame);
             for (int i = 0; i < elementView.getChildCount(); i++) {
                 View itemView = elementView.getChildAt(i);
-                EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
-                String text = editText.getText().toString();
 
-                if (text != null && text.length() != 0) {
+                EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
+                EditText valueText = itemView.findViewById(R.id.partial_note_list_item_value);
+
+                String text = editText.getText().toString();
+                String value = valueText.getText().toString();
+
+                if (text.length() != 0 || value.length() != 0) {
                     ElementList.ListItem listItem = ElementList.ListItem.newInstance();
-                    listItem.setText(text);
+                    if (text.length() != 0) {
+                        listItem.setText(text);
+                    }
+                    if (value.length() != 0) {
+                        listItem.setSecondText(value);
+                    }
                     listItem.setPosition(i);
                     noteElement.addItem(listItem);
                 }
@@ -976,8 +992,11 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 for (int i = 0; i < count; i++) {
                     View itemView = addNewItem(elementBundle);
                     EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
+                    EditText valueText = itemView.findViewById(R.id.partial_note_list_item_value);
                     String text = bundle.getString(prefix + elementBundle.groupId + KEY_LIST_ITEM_TEXT + i);
+                    String value = bundle.getString(prefix + elementBundle.groupId + KEY_LIST_ITEM_TEXT_SECOND + i);
                     editText.setText(text);
+                    valueText.setText(value);
                 }
                 getListTextChanged(elementBundle).isLayoutLoaded = true;
             }
@@ -991,8 +1010,11 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 for (int i = 0; i < elementView.getChildCount(); i++) {
                     View itemView = elementView.getChildAt(i);
                     EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
+                    EditText valueText = itemView.findViewById(R.id.partial_note_list_item_value);
                     String text = editText.getText().toString();
+                    String value = valueText.getText().toString();
                     bundle.putString(prefix + elementBundle.groupId + KEY_LIST_ITEM_TEXT + i, text);
+                    bundle.putString(prefix + elementBundle.groupId + KEY_LIST_ITEM_TEXT_SECOND + i, value);
                 }
                 bundle.putInt(prefix + elementBundle.groupId + KEY_LIST_ITEM_COUNT, elementView.getChildCount());
             }
@@ -1018,40 +1040,45 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             View item = inflater.inflate(R.layout.partial_note_list_item, parent, false);
             Element.ListInterpreter listInterpreter = (Element.ListInterpreter) elementBundle.typeElement.getInterpreter();
             EditText text = item.findViewById(R.id.partial_note_list_item_text);
+            TextView value = item.findViewById(R.id.partial_note_list_item_value);
             TextView symbol = item.findViewById(R.id.partial_note_list_item_symbol);
+            boolean hasValue = false;
             //Symbol
             {
                 if (listInterpreter.getListType() == Element.ListInterpreter.LIST_TYPE_BULLETS) {
                     symbol.setText("•");
                 } else if (listInterpreter.getListType() == Element.ListInterpreter.LIST_TYPE_BULLETS_EMPTY) {
                     symbol.setText("○");
-                }
-                symbol.setTextSize(listInterpreter.getTextSize());
-                symbol.setTextColor(listInterpreter.getColor());
-                TypeFaceUtils.setTypefaceCascade(getAssets(), symbol, listInterpreter.getFontName());
-                if (listInterpreter.isBold() && listInterpreter.isItalic()) {
-                    symbol.setTypeface(symbol.getTypeface(), Typeface.BOLD_ITALIC);
-                } else if (listInterpreter.isBold()) {
-                    symbol.setTypeface(symbol.getTypeface(), Typeface.BOLD);
-                } else if (listInterpreter.isItalic()) {
-                    symbol.setTypeface(symbol.getTypeface(), Typeface.ITALIC);
-                } else {
-                    symbol.setTypeface(symbol.getTypeface(), Typeface.NORMAL);
+                } else if (listInterpreter.getListType() == Element.ListInterpreter.LIST_TYPE_NAME_VALUE ) {
+                    symbol.setText("#");
+                    hasValue = true;
                 }
             }
-            //Text
+
+            value.setVisibility(hasValue ? View.VISIBLE : View.INVISIBLE);
+            //Style
             {
-                text.setTextSize(listInterpreter.getTextSize());
-                text.setTextColor(listInterpreter.getColor());
-                TypeFaceUtils.setTypefaceCascade(getAssets(), text, listInterpreter.getFontName());
-                if (listInterpreter.isBold() && listInterpreter.isItalic()) {
-                    text.setTypeface(text.getTypeface(), Typeface.BOLD_ITALIC);
-                } else if (listInterpreter.isBold()) {
-                    text.setTypeface(text.getTypeface(), Typeface.BOLD);
-                } else if (listInterpreter.isItalic()) {
-                    text.setTypeface(text.getTypeface(), Typeface.ITALIC);
-                } else {
-                    text.setTypeface(text.getTypeface(), Typeface.NORMAL);
+                for (int j = 0; j < 3; j++) {
+                    TextView textView;
+                    if (j == 0)
+                        textView = text;
+                    else if (j == 1)
+                        textView = value;
+                    else
+                        textView = symbol;
+
+                    textView.setTextColor(listInterpreter.getColor());
+                    TypeFaceUtils.setTypefaceCascade(getAssets(), textView, listInterpreter.getFontName());
+                    textView.setTextSize(listInterpreter.getTextSize());
+                    if (listInterpreter.isBold() && listInterpreter.isItalic()) {
+                        textView.setTypeface(textView.getTypeface(), Typeface.BOLD_ITALIC);
+                    } else if (listInterpreter.isBold()) {
+                        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+                    } else if (listInterpreter.isItalic()) {
+                        textView.setTypeface(textView.getTypeface(), Typeface.ITALIC);
+                    } else {
+                        textView.setTypeface(textView.getTypeface(), Typeface.NORMAL);
+                    }
                 }
             }
             return item;
@@ -1074,8 +1101,10 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             frame.addDragView(itemView, handler);
 
             EditText editText = itemView.findViewById(R.id.partial_note_list_item_text);
+            EditText valueText = itemView.findViewById(R.id.partial_note_list_item_value);
             OnListTextChanged listTextChanged = getListTextChanged(elementBundle);
             editText.addTextChangedListener(listTextChanged);
+            valueText.addTextChangedListener(listTextChanged);
             listTextChanged.updateWatchingList();
 
             return itemView;
@@ -1130,7 +1159,7 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
         //===================== Listeners =======================
         private class OnListTextChanged implements TextWatcher {
             ElementBundle elementBundle;
-            ArrayList<EditText> watching;
+            ArrayList<ListViewItem> watching;
             boolean isLayoutLoaded = true;
 
             public OnListTextChanged(ElementBundle elementBundle) {
@@ -1142,8 +1171,10 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 watching = new ArrayList<>(linearLayout.getChildCount());
                 for (int i = 0; i < linearLayout.getChildCount(); i++) {
                     View view = linearLayout.getChildAt(i);
-                    EditText editText = view.findViewById(R.id.partial_note_list_item_text);
-                    watching.add(editText);
+                    ListViewItem item = new ListViewItem();
+                    item.text = view.findViewById(R.id.partial_note_list_item_text);
+                    item.value = view.findViewById(R.id.partial_note_list_item_value);
+                    watching.add(item);
                 }
             }
 
@@ -1151,8 +1182,9 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
                 if (!isLayoutLoaded)
                     return null;
                 if (watching != null) {
-                    for (EditText editText : watching) {
-                        if (editText.getText() == null || editText.getText().length() == 0) {
+                    for (ListViewItem item : watching) {
+                        if ((item.text.getText() == null || item.text.getText().length() == 0)
+                                && (item.value.getText() == null || item.value.getText().length() == 0)) {
                             return null;
                         }
                     }
@@ -1175,6 +1207,11 @@ public class NoteEditActivity extends NoActionbarActivity implements NoteDrawerF
             @Override
             public void afterTextChanged(Editable s) {
                 addNewItemIfNecessary();
+            }
+
+            private class ListViewItem {
+                EditText text;
+                EditText value;
             }
         }
 

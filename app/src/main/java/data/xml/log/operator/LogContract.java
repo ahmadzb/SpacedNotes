@@ -154,6 +154,7 @@ public class LogContract {
 
                     public static final String dataId = "dataId";
                     public static final String text = "text";
+                    public static final String secondText = "secondText";
                     public static final String position = "position";
                 }
 

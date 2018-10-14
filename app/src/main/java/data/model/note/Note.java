@@ -213,7 +213,7 @@ public class Note implements Serializable {
             ElementList list = (ElementList) noteElement;
             ArrayList<String> items = new ArrayList<>(list.getItemCount());
             for (int i = 0; i < list.getItemCount(); i++) {
-                items.add(list.getItemAt(i).getText());
+                items.add(list.getItemAt(i).getDisplayText());
             }
             result = Texts.nameItems(items, new Texts.NameItemsCache(null, resources));
         }

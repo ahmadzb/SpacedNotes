@@ -13,12 +13,20 @@
         android:paddingTop="16dp"
         android:paddingStart="32dp"
         android:paddingEnd="8dp"/>
-    
+
     <EditText
         android:id="@+id/partial_note_list_item_text"
         android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:saveEnabled="false" />
+
+    <EditText
+        android:id="@+id/partial_note_list_item_value"
+        android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
         android:saveEnabled="false" />
 
     <ImageView

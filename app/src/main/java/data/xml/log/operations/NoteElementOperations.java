@@ -94,6 +94,13 @@ public class NoteElementOperations {
                             item.setText(attr.getValue());
                         }
                     }
+                    {
+                        Attribute attr = listElementChild.getAttribute(
+                                LogContract.NoteElement.UpdateNoteElements.Element.ListItem.secondText);
+                        if (attr != null) {
+                            item.setSecondText(attr.getValue());
+                        }
+                    }
                     items.add(item);
                 }
                 list.addAllItems(items);
@@ -187,6 +194,10 @@ public class NoteElementOperations {
                     if (listItem.getText() != null) {
                         item.setAttribute(LogContract.NoteElement.UpdateNoteElements.Element.ListItem.text,
                                 listItem.getText());
+                    }
+                    if (listItem.getSecondText() != null) {
+                        item.setAttribute(LogContract.NoteElement.UpdateNoteElements.Element.ListItem.secondText,
+                                listItem.getSecondText());
                     }
                     item.setAttribute(LogContract.NoteElement.UpdateNoteElements.Element.ListItem.position,
                             String.valueOf(listItem.getPosition()));

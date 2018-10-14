@@ -1,5 +1,7 @@
 package data.model.note;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -103,6 +105,7 @@ public class ElementList extends Element {
     public static class ListItem {
         long dataId;
         String text;
+        String secondText;
         int position;
 
         private ListItem () {
@@ -119,6 +122,18 @@ public class ElementList extends Element {
 
         public void setDataId(long dataId) {
             this.dataId = dataId;
+        }
+
+        @NonNull
+        public String getDisplayText() {
+            String text = "";
+            if (getText() != null) {
+                text += (text.length() == 0? "" : " ") + getText();
+            }
+            if (getSecondText() != null) {
+                text += (text.length() == 0? "" : " ") + getSecondText();
+            }
+            return text;
         }
 
         public String getText() {
@@ -149,6 +164,14 @@ public class ElementList extends Element {
             boolean equal = second != null;
             equal = equal && (text == null? "" : text).equals(second.text);
             return equal;
+        }
+
+        public String getSecondText() {
+            return secondText;
+        }
+
+        public void setSecondText(String secondText) {
+            this.secondText = secondText;
         }
     }
 
