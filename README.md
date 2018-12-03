@@ -34,6 +34,11 @@ An Android application for memorizing study materials more efficiently using spa
 ![GUI for schedules](SpacedNotes/docs/7f35482684f84a3985613b8e5984d07a.jpeg)
 
 
-# Concepts for Developer
+**Timeline:**
+<p>Timeline is the main page of the application where the user can see what notes need revision, when and what notes had been revised previously, when and what notes should be revised in the future. Timeline hosts one section for each day, hence three kinds of sections should exist. one section for current day, sections for past days, sections for future days. The section for current day presents all the notes that require revision, whether the revision was due days ago or the current day; it also shows the revisions done in the current day. The sections for past days retain the history of previously done revisions and the sections for future days view the notes that should be revised in the specified day.</p>
+
+**[please click here for details about all elements](SpacedNotes/docs/elements.md)**
+
+# Application Structure (for developers)
 todo
 
