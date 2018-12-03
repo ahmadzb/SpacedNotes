@@ -22,7 +22,7 @@
 **Timeline:**
 <p>Timeline is the main page of the application where the user can see what notes need revision, when and what notes had been revised previously, when and what notes should be revised in the future. Timeline hosts one section for each day, hence three kinds of sections should exist. one section for current day, sections for past days, sections for future days. The section for current day presents all the notes that require revision, whether the revision was due days ago or the current day; it also shows the revisions done in the current day. The sections for past days retain the history of previously done revisions and the sections for future days view the notes that should be revised in the specified day.</p>
 
-# Profiles, Labels, Label lists
+# Profiles, Labels, and Label lists
 
 **Profiles:**
 <p>Profiles enable the user to seperate content for different topics. Each profile is completely seperate from other profiles, meaning that there is no data sharing between profiles. A profile has its own notes, types, schedules, revisions, labels, and basically every other entity in the app. Even the physical database for each profile is seperate. Profiles are ideal for seperating study materials for unrelated topics, such as mathematics and English language.</p>
