@@ -14,7 +14,7 @@ An Android application for memorizing study materials more efficiently using spa
 <p>Spaced Notes provides the tools for taking notes after studying new materials, and offers flexible machanisms to review the notes based on the schedules defined by the user. The way this works is, the application lists the notes that need reviewing in a section called "timeline" and after each review of a note by the user, the application sets the next review date using the schedule that is assigned to that note. The user herself also has the ability to manually change the date for the next review.</p>
 
 # Main elements of Spaced Notes
-todo
+![Main elements diagram](SpacedNotes/docs/54E92417-67CA-44EE-B2FF-660AAF7D8A37.jpeg)
 
 # Concepts for Developer
 todo
