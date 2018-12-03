@@ -16,6 +16,16 @@ An Android application for memorizing study materials more efficiently using spa
 # Main elements of Spaced Notes
 ![Main elements diagram](SpacedNotes/docs/54E92417-67CA-44EE-B2FF-660AAF7D8A37.jpeg)
 
+**Type:**
+<p>Users can define one or more types. each type is like a blueprint from which notes can be created. Conversely, each note must be made from one and only one type. A Type indicates the kind of elements and the style of each element in the notes that are created from it. Currently, elements supported for types are texts, text lists, photoes, and section dividers. A type might consist of any number of any of these elements.</p>
+![GUI for types](SpacedNotes/docs/3db958c153e244bba9bef4427eb667c3.jpeg)
+
+**Note:**
+<p>The materials that users wish to revise are written/inserted in notes. A note itself is made of a number of elements. each element in a note is created using one and only one element from the corresponding type. In other words, the elements of a type, act like blueprints for elements in the notes created from that type. For instance, if a type has two text elements and one photo element, a note made from that type can have any number of elements where each element in the note must be from one of the the three elements of that type. A note also supports ordering/arranging of its elements.</p>
+
+**Schedule:**
+<p>The materials that users wish to revise are written/inserted in notes. A note itself is made of a number of elements. each element in a note is created using one and only one element from the corresponding type. In other words, the elements of a type, act like blueprints for elements in the notes created from that type. For instance, if a type has two text elements and one photo element, a note made from that type can have any number of elements where each element in the note must be from one of the the three elements of that type. A note also supports ordering/arranging of its elements.</p>
+
 # Concepts for Developer
 todo
 
