@@ -40,5 +40,13 @@ An Android application for memorizing study materials more efficiently using spa
 **[please click here for details about all elements](docs/elements.md)**
 
 # Application Structure (for developers)
-todo
+<p>The logical division of Spaced Notes components are depicted below:</p>
+
+![Main components of Spaced Notes](docs/images/deece3619d9e4b3cbb09b29c265b6591.jpeg)
+
+
+**UI Components**
+<p>These are components hosting the logic behind user interactions with the application. The components consist of Android UI framework classes such as activities, fragments, list adapters, and custom view classes. These components comunicate directly with the data model  **(todo-link)**. The multi-threading capabilities are also primarily implemented in these components and data model components mostly follow functional programing principles.</p>
+  
+**High Level Data Model**
 
