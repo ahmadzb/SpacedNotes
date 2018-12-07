@@ -45,8 +45,39 @@ An Android application for memorizing study materials more efficiently using spa
 ![Main components of Spaced Notes](docs/images/deece3619d9e4b3cbb09b29c265b6591.jpeg)
 
 
+
 **UI Components**
-<p>These are components hosting the logic behind user interactions with the application. The components consist of Android UI framework classes such as activities, fragments, list adapters, and custom view classes. These components comunicate directly with the data model  **(todo-link)**. The multi-threading capabilities are also primarily implemented in these components and data model components mostly follow functional programing principles.</p>
-  
+
+These are components hosting the logic behind user interactions with the application. The components consist of Android UI framework classes such as activities, fragments, list adapters, and custom view classes. These components comunicate directly with the [data model](docs/modelcomponents.md). The multi-threading capabilities are also primarily implemented in these components and data model components mostly follow functional programing principles.
+
+[Go to ..java/com/../spacednote](app/src/main/java/com/diplinkblaze/spacednote)
+
+
 **High Level Data Model**
 
+These components constitute the core functionality as well as the data representation of the application. The following are the main types of classes in this group:
+
+- Object representation of application concepts, such as note, schedule, type, and etc.
+- Object catalogs containing the lists of objects, such as notes, as well as the functions that apply to them.
+- Classes containing the logic for scheduling notes and note revision operations.
+
+[For further details about individual components click here](docs/modelcomponents.md)
+
+[Go to ../java/data/model](app/src/main/java/data/model)
+
+
+**Database Operations**
+
+Each operation that is performed on the SQLite databese, is implemented as a function and the functions are grouped into classes based on the application concept they are closest to. Classes for database operations are created based on application concepts, or database tables correspondingly. Examples of these classes are NoteOperations, NoteElementOperations, and ScheduleOperations.
+
+[For further details about indivual operation classes click here](docs/databaseoperations.md)
+
+[Go to ../java/data/database](app/src/main/java/data/database)
+
+**Log Operations**
+
+Each operation that is performed on the database, is also saved in an xml log file with all the information regarding the operation to reproduce the operation at a later time. Basically, by having the xml log files, it is possible to regenerate the entire database identically from scratch. It also provides the ability for the application to migrate to another database system without the need to convert the current SQLite database. Xml log files are also the reason that the application can sync across devices using free cload storages such as Google Drive.
+
+[For further details about log operations click here](docs/logoperations.md)
+
+[Go to ../java/data/xml](app/src/main/java/data/xml)
