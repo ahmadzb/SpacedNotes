@@ -74,6 +74,7 @@ Each operation that is performed on the SQLite databese, is implemented as a fun
 
 [Go to ../java/data/database](app/src/main/java/data/database)
 
+
 **Log Operations**
 
 Each operation that is performed on the database, is also saved in an xml log file with all the information regarding the operation to reproduce the operation at a later time. Basically, by having the xml log files, it is possible to regenerate the entire database identically from scratch. It also provides the ability for the application to migrate to another database system without the need to convert the current SQLite database. Xml log files are also the reason that the application can sync across devices using free cload storages such as Google Drive.
@@ -81,3 +82,16 @@ Each operation that is performed on the database, is also saved in an xml log fi
 [For further details about log operations click here](docs/logoperations.md)
 
 [Go to ../java/data/xml](app/src/main/java/data/xml)
+
+
+**Sync Operations**
+
+For syncing data between multiple devices, the appliction shares log files on free cload storage services and make use of seperating log file between devices through the use of a concept named "ports". In order to avoid conflicts between multiple devices modifying the same log files, each device will recieve a unique "port" and create its own log files that are associated with that port. Each application instance then executes all the operations in all log files (while only writing to logs associated with one port). All the database operations in the application are defined in such a way that multiple execuation of the same operation will not effect the final state of the database. As a result, delays in syncing between multiple devices will not effect the final state of the database in any device; operations will all be executed from any device based on the time that the operation was commited.
+
+[For further details about sync operations click here](docs/syncoperations.md)
+
+[Go to ../java/data/sync](app/src/main/java/data/sync)
+
+**Remote Storage Interface, Dropbox and Google Drice Interfaces**
+
+TODO
