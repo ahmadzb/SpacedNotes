@@ -42,8 +42,8 @@ First, the user creates a template, which is called a "type", for notes indicati
 
 **[please click here for details about all elements](docs/elements.md)**
 
-# Application Structure (for developers)
-<p>The logical division of Spaced Notes components are depicted below:</p>
+# Application Structure
+<p>The logical division of Spaced Notes components can be depicted as below:</p>
 
 ![Main components of Spaced Notes](docs/images/deece3619d9e4b3cbb09b29c265b6591.jpeg)
 
@@ -56,7 +56,7 @@ These are components hosting the logic behind user interactions with the applica
 [Go to ..java/com/../spacednote](app/src/main/java/com/diplinkblaze/spacednote)
 
 
-**High Level Data Model**
+**Data Model**
 
 These components constitute the core functionality as well as the data representation of the application. The following are the main types of classes in this group:
 
@@ -71,7 +71,7 @@ These components constitute the core functionality as well as the data represent
 
 **Database Operations**
 
-Each operation that is performed on the SQLite databese, is implemented as a function and the functions are grouped into classes based on the application concept they are closest to. Classes for database operations are created based on application concepts, or database tables correspondingly. Examples of these classes are NoteOperations, NoteElementOperations, and ScheduleOperations.
+Each operation that is performed on the SQLite databese, is implemented as a method and the methods are encapsulated into classes based on the main entity type they change in the database. As a result, classes are typically created for each entity type in the database. Examples of these classes are NoteOperations, NoteElementOperations, and ScheduleOperations.
 
 [For further details about indivual operation classes click here](docs/databaseoperations.md)
 
@@ -80,7 +80,7 @@ Each operation that is performed on the SQLite databese, is implemented as a fun
 
 **Log Operations**
 
-Each operation that is performed on the database, is also saved in an xml log file with all the information regarding the operation to reproduce the operation at a later time. Basically, by having the xml log files, it is possible to regenerate the entire database identically from scratch. It also provides the ability for the application to migrate to another database system without the need to convert the current SQLite database. Xml log files are also the reason that the application can sync across devices using free cload storages such as Google Drive.
+Each operation that is performed on the database, is also saved in an xml log file with all the information regarding the operation to reproduce the operation at a later time. Therefore, by having the xml log files, it is possible to regenerate the entire database identically from scratch. It also provides the ability for the application to migrate to another database system without the need to convert the current SQLite database. Xml log files are also the reason that the application can sync across devices using free cloud storages such as Google Drive.
 
 [For further details about log operations click here](docs/logoperations.md)
 
@@ -89,7 +89,7 @@ Each operation that is performed on the database, is also saved in an xml log fi
 
 **Sync Operations**
 
-For syncing data between multiple devices, the appliction shares log files on free cload storage services and make use of seperating log file between devices through the use of a concept named "ports". In order to avoid conflicts between multiple devices modifying the same log files, each device will recieve a unique "port" and create its own log files that are associated with that port. Each application instance then executes all the operations in all log files (while only writing to logs associated with one port). All the database operations in the application are defined in such a way that multiple execuation of the same operation will not effect the final state of the database. As a result, delays in syncing between multiple devices will not effect the final state of the database in any device; operations will all be executed from any device based on the time that the operation was commited.
+For syncing data between multiple devices, the appliction shares log files on free cloud storage services and make use of seperating log file between devices through the use of a concept called "ports". In order to avoid conflicts between multiple devices modifying the same log files, each device will recieve a unique "port" and create its own log files that are associated with that port. Each application instance then executes all the operations in all log files (while only writing to logs associated with one port). All the database operations in the application are defined in such a way that multiple execuation of the same operation will not effect the final state of the database. As a result, delays in syncing between multiple devices will not effect the final state of the database in any device; operations from a time "t" will all be executed again if a device has an operation on time t that is not executed yet.
 
 [For further details about sync operations click here](docs/syncoperations.md)
 
