@@ -94,4 +94,4 @@ For syncing data between multiple devices, the appliction shares log files on fr
 
 **Remote Storage Interface, Dropbox and Google Drice Interfaces**
 
-TODO
+To be able to integrate new cloud storage options later, the actual code for connecting to each cloud storage is implemented in a class that implements a common interface called "SyncOperator", which require implementation of methods such as downloading or uploading a file. Each of the individual classes for each cloud storage in turn interacts with the corresponding API provided by that cloud storage. The scheme alows the application to implement the logic for syncing log and other files by only seeing a class that is a "SyncOperator" without needing to know what kind of storage it is behind the hood.
