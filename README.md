@@ -45,7 +45,7 @@ First, the user creates a template, which is called a "type", for notes indicati
 # Application Structure
 <p>The logical division of Spaced Notes components can be depicted as below:</p>
 
-![Main components of Spaced Notes](docs/images/deece3619d9e4b3cbb09b29c265b6591.jpeg)
+![Main components of Spaced Notes](docs/images/3fa35d672a644b6fb91d716765ec36c3.jpeg)
 
 
 
