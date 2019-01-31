@@ -12,10 +12,10 @@ The method ```sync()``` in SyncOperations class is called on a worker thread (fr
 **SyncOperations**
 
 The class SyncOperations has only one public method ```sync()```, the overall structure of sync method is as follows:
- - Retrieve Ports from Remote Server
- - Compare retrieved ports with existing ports, if retrieved ports are newer, retrieve required log files from remote server.
- - Examine the local and remote existences and upload, download, and delete remote existences (including pictures and captures) if required. 
- - If existing ports are newer (including the changes after updating existences), upload existing ports along with required existing logs to the remote server.
+ 1. Retrieve Ports from Remote Server
+ 2. Compare retrieved ports with existing ports, if retrieved ports are newer, retrieve required log files from remote server.
+ 3. Examine the local and remote existences and upload, download, and delete remote existences (including pictures and captures) if required. 
+ 4. If existing ports are newer (including the changes after updating existences), upload existing ports along with required existing logs to the remote server.
  
  
 **SyncOperator**
