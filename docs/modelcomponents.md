@@ -45,3 +45,6 @@ Each note can have one or more labels, each label can be assigned to one or more
 
 [Go to ../java/data/model/label](../app/src/main/java/data/model/label)
 
+**Other Elements**
+
+Data Model also contains other elements such as profiles, pictures, and existances. Each profile defines its own entire dataset as if the application was freshly installed. Each file (in filesystem) that is referenced in the databases, such as pictures, xml log files, and data capture files are represented as an "existance" in the data model.
