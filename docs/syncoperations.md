@@ -9,6 +9,8 @@ The method ```sync()``` in SyncOperations class is called on a worker thread (fr
 
 ![Main components of Spaced Notes](images/sync_structure.jpg)
 
+[Go to ../java/data/sync](../app/src/main/java/data/sync)
+
 **SyncOperations**
 
 The class SyncOperations has only one public method ```sync()```, the overall structure of sync method is as follows:
