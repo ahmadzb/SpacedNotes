@@ -12,19 +12,27 @@ The changes to the underlying databases are only done through methods that are i
 
 [Go to ../java/data/database](../app/src/main/java/data/database)
 
+
 **Notes**
 
 The class "NoteOperations" contain methods for adding, editnig, deleting, and quarying notes. The class "NoteElementOperations" contain methods for adding, editing, deleting, and quaring note elements by specifying a single note.
+
 
 **Types**
 
 The class "TypeOperations" contain methods for adding, editnig, deleting, and quarying types. The class "TypeElementOperations" contain methods for adding, editing, deleting, and quaring type elements by specifying a single type.
 
+
 **Schedule/Scheduler**
 
 The class "ScheduleOperations" contain methods for adding, updating, deleting, merging, and quarying schedules. The class "OccurrenceOperations" contain methods for adding, updating, deleting, and quaring occurrences by specifying a single schedule. The class "RevisionOperations" contain methods for adding, deleting, and quaring revisions by specifying a single note, or a single schedule. 
 
+
 **Labels**
 
 The class "LabelOperations" contain methods for adding, editnig, deleting, and quarying labels. The class "LabelListOperations" contain methods for adding, editing, deleting, and quaring labelLists.
-      
+  
+  
+**Other Database Operation Classes**
+
+The class "PictureOperations" contain methods for changing the references to actual picture files in the filesystem. The class "Contract" stores the names of database tables and columns.
