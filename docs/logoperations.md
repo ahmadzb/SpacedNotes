@@ -10,6 +10,8 @@ the overall structure of the logging mechanism is depicted below:
 
 ![Main components of Spaced Notes](images/log_structure.jpg)
 
+[Go to ../java/data/xml/log](../app/src/main/java/data/xml/log)
+
 **Operation**
 
 Each action in the application that changes the underlying application data, is performed in the form of an Operation. the "Operation" class encapsulated such operations as it contains all the necessary information that an action needs to be performed. The Operation instance can then be used at any time to perform its underlying action.
