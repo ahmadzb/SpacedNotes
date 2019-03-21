@@ -1,4 +1,4 @@
-<!-- google-site-verification: google9e4edcd6ced170ee.html -->
+<p style="display:none">google-site-verification: google9e4edcd6ced170ee.html</p>
 
 # Spaced Notes
 An Android application for helping learners in memorizing study materials more efficiently using spaced-repetition techniques
