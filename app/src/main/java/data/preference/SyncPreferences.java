@@ -9,6 +9,7 @@ import android.content.Context;
 public class SyncPreferences {
     private static final String KEY_CURRENT_SYNC_OPERATOR = "currentSyncOperator";
     private static final String KEY_DROPBOX_TOKEN = "dropboxToken";
+    private static final String KEY_PCLOUD_TOKEN = "pCloudToken";
 
     private static final int SYNC_OPERATOR_DRIVE = 1;
     private static final int SYNC_OPERATOR_DROPBOX = 2;
@@ -56,6 +57,23 @@ public class SyncPreferences {
         public static void setToken(String token, Context context) {
             Dropbox.token = token;
             Contract.getSyncPreferences(context).edit().putString(KEY_DROPBOX_TOKEN, token).apply();
+        }
+    }
+
+
+    public static class PCloud {
+        private static String token;
+
+        public static String getToken(Context context) {
+            if (token == null) {
+                token = Contract.getSyncPreferences(context).getString(KEY_PCLOUD_TOKEN, null);
+            }
+            return token;
+        }
+
+        public static void setToken(String token, Context context) {
+            Dropbox.token = token;
+            Contract.getSyncPreferences(context).edit().putString(KEY_PCLOUD_TOKEN, token).apply();
         }
     }
 

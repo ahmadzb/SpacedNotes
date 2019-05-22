@@ -49,6 +49,8 @@ dependencies {
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.dropbox.core:dropbox-core-sdk:3.0.7'
+    implementation 'com.pcloud.sdk:java-core:1.1.0'
+    implementation 'com.pcloud.sdk:android:1.1.0'
     //implementation 'com.tom_roush:pdfbox-android:1.8.10.0'
     implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
         transitive = true

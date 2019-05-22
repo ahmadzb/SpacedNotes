@@ -18,12 +18,15 @@ import android.widget.Toast;
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.BaseActivity;
 import com.dropbox.core.android.Auth;
+import com.pcloud.sdk.AuthorizationActivity;
+import com.pcloud.sdk.AuthorizationResult;
 
 import data.database.file.FileOpenHelper;
 import data.drive.Authentication;
 import data.drive.DriveOperator;
 import data.dropbox.DropboxOperator;
 import data.model.existence.ExistenceCatalog;
+import data.pcloud.PCloudOperator;
 import data.sync.SyncOperators;
 
 public class SyncActivity extends AppCompatActivity {
@@ -37,7 +40,8 @@ public class SyncActivity extends AppCompatActivity {
     private static final String KEY_IS_SIGN_IN_FLOW = "isSignInFlow";
     private static final String KEY_CAN_SIGN_IN = "canSignIn";
 
-    private static final int SIGN_IN_REQUEST = 0;
+    private static final int SIGN_IN_REQUEST_DRIVE = 0;
+    private static final int SIGN_IN_REQUEST_PCLOUD = 1;
 
     private boolean isSignInFlow;
     private boolean canSignIn;
@@ -114,8 +118,16 @@ public class SyncActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SIGN_IN_REQUEST) {
+        if (requestCode == SIGN_IN_REQUEST_DRIVE) {
             if (resultCode == RESULT_OK) {
+                startService(SyncService.getSyncRequestIntent(this));
+            }
+            isSignInFlow = false;
+            updateViews();
+        } else if (requestCode == SIGN_IN_REQUEST_PCLOUD) {
+            if (resultCode == RESULT_OK) {
+
+                //data.pcloud.Authentication.saveToken(this, data);
                 startService(SyncService.getSyncRequestIntent(this));
             }
             isSignInFlow = false;
@@ -234,9 +246,12 @@ public class SyncActivity extends AppCompatActivity {
         canSignIn = false;
         if (SyncOperators.getCurrentOperator(this) instanceof DriveOperator) {
             Intent intent = Authentication.getSignInIntent(this);
-            startActivityForResult(intent, SIGN_IN_REQUEST);
+            startActivityForResult(intent, SIGN_IN_REQUEST_DRIVE);
         } else if (SyncOperators.getCurrentOperator(this) instanceof DropboxOperator) {
             Auth.startOAuth2Authentication(this, "4y76xyq70frs0yf");
+        } else if (SyncOperators.getCurrentOperator(this) instanceof PCloudOperator) {
+            Intent intent = AuthorizationActivity.createIntent(this, "rNFJ52yGA75");
+            startActivityForResult(intent, SIGN_IN_REQUEST_PCLOUD);
         }
         updateViews();
     }
