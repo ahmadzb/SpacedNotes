@@ -127,7 +127,7 @@ public class SyncActivity extends AppCompatActivity {
         } else if (requestCode == SIGN_IN_REQUEST_PCLOUD) {
             if (resultCode == RESULT_OK) {
 
-                //data.pcloud.Authentication.saveToken(this, data);
+                //data.pcloud.Authentication.saveToken(this, data); TODO
                 startService(SyncService.getSyncRequestIntent(this));
             }
             isSignInFlow = false;

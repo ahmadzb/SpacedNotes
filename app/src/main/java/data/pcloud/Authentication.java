@@ -8,6 +8,7 @@ import com.pcloud.sdk.ApiClient;
 import com.pcloud.sdk.Authenticators;
 import com.pcloud.sdk.AuthorizationActivity;
 import com.pcloud.sdk.PCloudSdk;
+import com.pcloud.sdk.PCloudSdkV2;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -46,7 +47,7 @@ public class Authentication {
                     throw new SignInException();
                 }
                 signIn = new SignIn();
-                signIn.client = PCloudSdk.newClientBuilder()
+                signIn.client = PCloudSdkV2.newClientBuilder()
                         .authenticator(Authenticators.newOAuthAuthenticator(accessToken)).create();
             }
 

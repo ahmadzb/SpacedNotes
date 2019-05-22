@@ -3,13 +3,22 @@ package data.pcloud;
 import android.content.Context;
 
 
+import com.pcloud.sdk.ApiError;
+import com.pcloud.sdk.Call;
+import com.pcloud.sdk.DownloadOptions;
+import com.pcloud.sdk.FileLink;
+import com.pcloud.sdk.internal.ResponseAdapter;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import data.sync.SignInException;
 import data.sync.SyncFailureException;
 import data.sync.SyncFile;
 import data.sync.SyncOperator;
+import okhttp3.Request;
+import okhttp3.Response;
 import util.Concurrent.TaskProgress;
 
 /**
@@ -62,4 +71,6 @@ public class PCloudOperator implements SyncOperator {
             return "/" + syncFile.getName();
         }
     }
+
+
 }
