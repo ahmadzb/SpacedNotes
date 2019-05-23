@@ -267,6 +267,27 @@
                         android:text="@string/sync_dropbox" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/fragment_main_drawer_sync_pcloud"
+                    style="@style/NavMenuItem.Openable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        style="@style/NavMenuImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_sync_white_24dp" />
+
+                    <TextView
+                        style="@style/NavMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sync_pcloud" />
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/fragment_main_drawer_sync_more"
                     style="@style/NavMenuText"

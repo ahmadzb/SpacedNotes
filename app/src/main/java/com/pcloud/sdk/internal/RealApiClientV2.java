@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 import static com.pcloud.sdk.internal.FileIdUtils.*;
 import static com.pcloud.sdk.internal.IOUtils.closeQuietly;
 
-class RealApiClientV2 extends RealApiClient {
+class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
 
     private long progressCallbackThresholdBytes;
     private Authenticator authenticator;
@@ -288,6 +288,23 @@ class RealApiClientV2 extends RealApiClient {
 
     }
 
+    @Override
+    public Call<FileLink> createFileLink(String path, DownloadOptions options) {
+        if (options == null) {
+            throw new IllegalArgumentException("DownloadOptions parameter cannot be null.");
+        }
+
+        Request request = newDownloadLinkRequest(path, options);
+
+        return newCall(request, new ResponseAdapter<FileLink>() {
+            @Override
+            public FileLink adapt(Response response) throws IOException, ApiError {
+                return getAsFileLink(response);
+            }
+        });
+
+    }
+
     private FileLink getAsFileLink(Response response) throws IOException, ApiError {
         GetLinkResponse body = getAsApiResponse(response, GetLinkResponse.class);
         List<URL> downloadUrls = new ArrayList<>(body.getHosts().size());
@@ -302,6 +319,37 @@ class RealApiClientV2 extends RealApiClient {
         HttpUrl.Builder urlBuilder = API_BASE_URL.newBuilder().
                 addPathSegment("getfilelink")
                 .addQueryParameter("fileid", String.valueOf(fileId));
+
+        if (options.forceDownload()) {
+            urlBuilder.addQueryParameter("forcedownload", String.valueOf(1));
+        }
+
+        if (options.skipFilename()) {
+            urlBuilder.addQueryParameter("skipfilename", String.valueOf(1));
+        }
+
+        if (options.contentType() != null) {
+            MediaType mediaType = MediaType.parse(options.contentType());
+            if (mediaType == null) {
+                throw new IllegalArgumentException("Invalid or not well-formatted content type DownloadOptions argument");
+            }
+            urlBuilder.addQueryParameter("contenttype", mediaType.toString());
+        }
+
+        return new Request.Builder()
+                .url(urlBuilder.build())
+                .get()
+                .build();
+    }
+
+
+    private Request newDownloadLinkRequest(String path, DownloadOptions options) {
+        if (path == null)
+            throw new RuntimeException("Path to downloadable file cannot be null");
+
+        HttpUrl.Builder urlBuilder = API_BASE_URL.newBuilder().
+                addPathSegment("getfilelink")
+                .addQueryParameter("path", path);
 
         if (options.forceDownload()) {
             urlBuilder.addQueryParameter("forcedownload", String.valueOf(1));

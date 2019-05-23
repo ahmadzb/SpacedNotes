@@ -22,6 +22,9 @@ public class SyncOperators {
         } else if (SyncPreferences.isCurrentSyncOperatorDropbox(context) &&
                 !(currentOperator instanceof DropboxOperator)) {
             currentOperator = new DropboxOperator();
+        } else if (SyncPreferences.isCurrentSyncOperatorDropbox(context) &&
+                !(currentOperator instanceof DropboxOperator)) {
+            currentOperator = new DropboxOperator();
         }
 
         return currentOperator;

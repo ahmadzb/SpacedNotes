@@ -19,7 +19,7 @@ public class PCloudSdkV2 {
     /**
      * @return a new {@link ApiClient.Builder} instance.
      */
-    public static ApiClient.Builder newClientBuilder(){
+    public static ApiClientV2.BuilderV2 newClientBuilder(){
         return InternalV2.newBuilder();
     }
 }

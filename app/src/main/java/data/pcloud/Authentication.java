@@ -5,6 +5,7 @@ import android.content.Intent;
 
 
 import com.pcloud.sdk.ApiClient;
+import com.pcloud.sdk.ApiClientV2;
 import com.pcloud.sdk.Authenticators;
 import com.pcloud.sdk.AuthorizationActivity;
 import com.pcloud.sdk.PCloudSdk;
@@ -48,7 +49,7 @@ public class Authentication {
                 }
                 signIn = new SignIn();
                 signIn.client = PCloudSdkV2.newClientBuilder()
-                        .authenticator(Authenticators.newOAuthAuthenticator(accessToken)).create();
+                        .authenticatorV2(Authenticators.newOAuthAuthenticator(accessToken)).createV2();
             }
 
             return signIn;
@@ -66,9 +67,9 @@ public class Authentication {
 
     public static class SignIn {
 
-        private ApiClient client;
+        private ApiClientV2 client;
 
-        public ApiClient getClient() {
+        public ApiClientV2 getClient() {
             return client;
         }
 

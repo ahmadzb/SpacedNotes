@@ -39,6 +39,7 @@
     <string name="sync">Sync</string>
     <string name="sync_google_drive">Sync - Google Drive</string>
     <string name="sync_dropbox">Sync - Dropbox</string>
+    <string name="sync_pcloud">Sync - PCloud</string>
     <string name="sync_skip">Skip sync</string>
     <string name="initializing">Initializing&#8230;</string>
     <string name="syncing">Syncing&#8230;</string>

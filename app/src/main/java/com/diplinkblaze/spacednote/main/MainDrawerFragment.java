@@ -27,6 +27,7 @@ import data.drive.DriveOperator;
 import data.dropbox.DropboxOperator;
 import data.model.profiles.Profile;
 import data.model.profiles.ProfileCatalog;
+import data.pcloud.PCloudOperator;
 import data.preference.ContentPreferences;
 import data.preference.SyncPreferences;
 import data.sync.SyncOperator;
@@ -205,6 +206,7 @@ public class MainDrawerFragment extends Fragment implements BackSupportListener,
             ArrayList<View> syncItems = new ArrayList<>();
             syncItems.add(contentView.findViewById(R.id.fragment_main_drawer_sync_drive));
             syncItems.add(contentView.findViewById(R.id.fragment_main_drawer_sync_dropbox));
+            syncItems.add(contentView.findViewById(R.id.fragment_main_drawer_sync_pcloud));
             View moreView = contentView.findViewById(R.id.fragment_main_drawer_sync_more);
             if (showMoreSyncs) {
                 moreView.setVisibility(View.GONE);
@@ -220,6 +222,8 @@ public class MainDrawerFragment extends Fragment implements BackSupportListener,
                             syncItem.getId() == R.id.fragment_main_drawer_sync_drive;
                     isVisible = isVisible || currentSyncOperator instanceof DropboxOperator &&
                             syncItem.getId() == R.id.fragment_main_drawer_sync_dropbox;
+                    isVisible = isVisible || currentSyncOperator instanceof PCloudOperator &&
+                            syncItem.getId() == R.id.fragment_main_drawer_sync_pcloud;
                     syncItem.setVisibility(isVisible? View.VISIBLE : View.GONE);
                 }
             }
@@ -292,6 +296,15 @@ public class MainDrawerFragment extends Fragment implements BackSupportListener,
         tryUpdateViews();
     }
 
+    private void menuSyncPCloudSelected() {
+        SyncPreferences.setCurrentSyncOperatorPCloud(getContext());
+        int request = ActivityRequestHostUtils.toGlobalRequest(ACTIVITY_REQUEST_SYNC,
+                (ActivityRequestHost) getActivity(), this);
+        startActivityForResult(SyncActivity.getIntent(getContext()), request);
+        showMoreSyncs = false;
+        tryUpdateViews();
+    }
+
     private void moreSyncSelected() {
         showMoreSyncs = true;
         tryUpdateViews();
@@ -309,6 +322,8 @@ public class MainDrawerFragment extends Fragment implements BackSupportListener,
                 menuSyncDriveSelected();
             } else if (v.getId() == R.id.fragment_main_drawer_sync_dropbox) {
                 menuSyncDropboxSelected();
+            } else if (v.getId() == R.id.fragment_main_drawer_sync_pcloud) {
+                menuSyncPCloudSelected();
             } else if (v.getId() == R.id.fragment_main_drawer_header_title) {
                 onHeaderClicked();
             } else if (v.getId() == R.id.fragment_main_drawer_sync_more) {

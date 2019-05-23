@@ -13,6 +13,7 @@ public class SyncPreferences {
 
     private static final int SYNC_OPERATOR_DRIVE = 1;
     private static final int SYNC_OPERATOR_DROPBOX = 2;
+    private static final int SYNC_OPERATOR_PCLOUD = 3;
 
     private static Integer currentSyncOperator;
 
@@ -22,6 +23,10 @@ public class SyncPreferences {
 
     public static boolean isCurrentSyncOperatorDropbox(Context context) {
         return getCurrentSyncOperator(context) == SYNC_OPERATOR_DROPBOX;
+    }
+
+    public static boolean isCurrentSyncOperatorPCloud(Context context) {
+        return getCurrentSyncOperator(context) == SYNC_OPERATOR_PCLOUD;
     }
 
     private static int getCurrentSyncOperator(Context context) {
@@ -37,6 +42,10 @@ public class SyncPreferences {
 
     public static void setCurrentSyncOperatorDropbox(Context context) {
         setCurrentSyncOperator(SYNC_OPERATOR_DROPBOX, context);
+    }
+
+    public static void setCurrentSyncOperatorPCloud(Context context) {
+        setCurrentSyncOperator(SYNC_OPERATOR_PCLOUD, context);
     }
 
     private static void setCurrentSyncOperator(int currentSyncOperator, Context context) {
