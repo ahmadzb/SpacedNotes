@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 import static com.pcloud.sdk.internal.FileIdUtils.*;
 import static com.pcloud.sdk.internal.IOUtils.closeQuietly;
 
-class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
+class RealApiClient implements ApiClient {
 
     private long progressCallbackThresholdBytes;
     private Authenticator authenticator;
@@ -59,20 +59,18 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
 
     private static final HttpUrl API_BASE_URL = HttpUrl.parse("https://api.pcloud.com");
 
-    RealApiClientV2() {
-        this(new RealApiServiceBuilderV2());
+    RealApiClient() {
+        this(new RealApiServiceBuilder());
     }
 
-    RealApiClientV2(RealApiServiceBuilderV2 builder) {
+    RealApiClient(RealApiServiceBuilder builder) {
         Map<String, String> globalParams = new TreeMap<>();
         globalParams.put("timeformat", String.valueOf("timestamp"));
-        String userAgent = String.format(Locale.US, "pCloud SDK Java %s", Version.NAME);
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder()
                 .readTimeout(builder.readTimeoutMs(), TimeUnit.MILLISECONDS)
                 .writeTimeout(builder.writeTimeoutMs(), TimeUnit.MILLISECONDS)
                 .connectTimeout(builder.connectTimeoutMs(), TimeUnit.MILLISECONDS)
-                .protocols(Collections.singletonList(Protocol.HTTP_1_1))
-                .addInterceptor(new GlobalRequestInterceptor(userAgent, globalParams));
+                .protocols(Collections.singletonList(Protocol.HTTP_1_1));
 
         if (builder.dispatcher() != null) {
             httpClientBuilder.dispatcher(builder.dispatcher());
@@ -110,10 +108,23 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
     public Call<RemoteFolder> listFolder(long folderId) {
         return listFolder(folderId, false);
     }
+    @Override
+    public Call<RemoteFolder> listFolder(String folderPath) {
+        return listFolder(folderPath, false);
+    }
 
     @Override
     public Call<RemoteFolder> listFolder(long folderId, boolean recursively) {
         return newCall(createListFolderRequest(folderId, recursively), new ResponseAdapter<RemoteFolder>() {
+            @Override
+            public RemoteFolder adapt(Response response) throws IOException, ApiError {
+                return getAsApiResponse(response, GetFolderResponse.class).getFolder();
+            }
+        });
+    }
+    @Override
+    public Call<RemoteFolder> listFolder(String folderPath, boolean recursively) {
+        return newCall(createListFolderRequest(folderPath, recursively), new ResponseAdapter<RemoteFolder>() {
             @Override
             public RemoteFolder adapt(Response response) throws IOException, ApiError {
                 return getAsApiResponse(response, GetFolderResponse.class).getFolder();
@@ -236,6 +247,99 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
     }
 
     @Override
+    public Call<RemoteFile> createFile(String folderPath, String filename, DataSource data) {
+        return createFile(folderPath, filename, data, null, null, UploadOptions.DEFAULT);
+    }
+
+    @Override
+    public Call<RemoteFile> createFile(String folderPath, String filename, DataSource data, UploadOptions uploadOptions) {
+        return createFile(folderPath, filename, data, null, null, uploadOptions);
+    }
+
+    @Override
+    public Call<RemoteFile> createFile(String folderPath, String filename, DataSource data, Date modifiedDate, ProgressListener listener) {
+        return createFile(folderPath, filename, data, modifiedDate, listener, UploadOptions.DEFAULT);
+    }
+
+    @Override
+    public Call<RemoteFile> createFile(String folderPath, String filename, final DataSource data, Date modifiedDate, final ProgressListener listener, final UploadOptions uploadOptions) {
+        if (filename == null) {
+            throw new IllegalArgumentException("Filename cannot be null.");
+        }
+        if (data == null) {
+            throw new IllegalArgumentException("File data cannot be null.");
+        }
+
+        if(uploadOptions == null) {
+            throw new IllegalArgumentException("Upload options cannot be null.");
+        }
+
+        RequestBody dataBody = new RequestBody() {
+            @Override
+            public MediaType contentType() {
+                return MediaType.parse("multipart/form-data");
+            }
+
+            @Override
+            public void writeTo(BufferedSink sink) throws IOException {
+                if (listener != null) {
+                    ProgressListener realListener = listener;
+                    if (callbackExecutor != null) {
+                        realListener = new ExecutorProgressListener(listener, callbackExecutor);
+                    }
+
+                    sink = Okio.buffer(new ProgressCountingSink(
+                            sink,
+                            data.contentLength(),
+                            realListener,
+                            progressCallbackThresholdBytes));
+                }
+                data.writeTo(sink);
+                sink.flush();
+            }
+
+            @Override
+            public long contentLength() throws IOException {
+                return data.contentLength();
+            }
+        };
+
+        RequestBody compositeBody = new MultipartBody.Builder("--")
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", filename, dataBody)
+                .build();
+
+        HttpUrl.Builder urlBuilder = API_BASE_URL.newBuilder().
+                addPathSegment("uploadfile")
+                .addQueryParameter("renameifexists", String.valueOf(uploadOptions.overrideFile() ? 0 : 1))
+                .addQueryParameter("nopartial", String.valueOf(uploadOptions.partialUpload() ? 0 : 1));
+        if (folderPath != null) {
+            urlBuilder.addQueryParameter("path", String.valueOf(folderPath));
+        }
+
+        if (modifiedDate != null) {
+            urlBuilder.addQueryParameter("mtime", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(modifiedDate.getTime())));
+        }
+
+        Request uploadRequest = new Request.Builder()
+                .url(urlBuilder.build())
+                .method("POST", compositeBody)
+                .build();
+
+        return newCall(uploadRequest, new ResponseAdapter<RemoteFile>() {
+            @Override
+            public RemoteFile adapt(Response response) throws IOException, ApiError {
+                UploadFilesResponse body = getAsApiResponse(response, UploadFilesResponse.class);
+                if (!body.getUploadedFiles().isEmpty()) {
+                    return body.getUploadedFiles().get(0);
+                } else {
+                    throw new IOException("API uploaded file but did not return remote file data.");
+                }
+            }
+        });
+    }
+
+    @Override
     public Call<Boolean> deleteFile(RemoteFile file) {
         if (file == null) {
             throw new IllegalArgumentException("File argument cannot be null.");
@@ -252,6 +356,29 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
                 .get()
                 .post(new FormBody.Builder()
                         .add("fileid", String.valueOf(fileId))
+                        .build())
+                .build();
+        return newCall(request, new ResponseAdapter<Boolean>() {
+            @Override
+            public Boolean adapt(Response response) throws IOException, ApiError {
+                GetFileResponse body = deserializeResponseBody(response, GetFileResponse.class);
+                return body.isSuccessful() && body.getFile() != null;
+            }
+        });
+    }
+
+    @Override
+    public Call<Boolean> deleteFile(String path) {
+        if (path == null) {
+            throw new RuntimeException("path cannot be null");
+        }
+        Request request = new Request.Builder()
+                .url(API_BASE_URL.newBuilder()
+                        .addPathSegment("deletefile")
+                        .build())
+                .get()
+                .post(new FormBody.Builder()
+                        .add("path", path)
                         .build())
                 .build();
         return newCall(request, new ResponseAdapter<Boolean>() {
@@ -290,6 +417,10 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
 
     @Override
     public Call<FileLink> createFileLink(String path, DownloadOptions options) {
+        if (path == null) {
+            throw new IllegalArgumentException("path parameter cannot be null.");
+        }
+
         if (options == null) {
             throw new IllegalArgumentException("DownloadOptions parameter cannot be null.");
         }
@@ -302,7 +433,6 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
                 return getAsFileLink(response);
             }
         });
-
     }
 
     private FileLink getAsFileLink(Response response) throws IOException, ApiError {
@@ -312,7 +442,7 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
             downloadUrls.add(new URL("https", host, body.getPath()));
         }
 
-        return new RealFileLink(RealApiClientV2.this, body.getExpires(), downloadUrls);
+        return new RealFileLink(RealApiClient.this, body.getExpires(), downloadUrls);
     }
 
     private Request newDownloadLinkRequest(long fileId, DownloadOptions options) {
@@ -342,11 +472,7 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
                 .build();
     }
 
-
     private Request newDownloadLinkRequest(String path, DownloadOptions options) {
-        if (path == null)
-            throw new RuntimeException("Path to downloadable file cannot be null");
-
         HttpUrl.Builder urlBuilder = API_BASE_URL.newBuilder().
                 addPathSegment("getfilelink")
                 .addQueryParameter("path", path);
@@ -694,11 +820,40 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
         });
     }
 
+    @Override
+    public Call<RemoteFolder> createFolder(String folderPath) {
+        if (folderPath == null) {
+            throw new IllegalArgumentException("folderPath cannot be null");
+        }
+        return newCall(createFolderRequest(folderPath), new ResponseAdapter<RemoteFolder>() {
+            @Override
+            public RemoteFolder adapt(Response response) throws IOException, ApiError {
+                return getAsApiResponse(response, GetFolderResponse.class).getFolder();
+            }
+        });
+    }
+
     private Request createFolderRequest(long parentFolderId, String folderName) {
         RequestBody body = new FormBody.Builder()
                 .add("folderid", String.valueOf(parentFolderId))
                 .add("name", folderName)
                 .build();
+
+        return newRequest()
+                .url(API_BASE_URL.newBuilder()
+                        .addPathSegment("createfolder").build())
+                .post(body)
+                .build();
+    }
+
+    private Request createFolderRequest(String folderPath) {
+        FormBody.Builder builder = new FormBody.Builder();
+        if (folderPath != null) {
+            builder.add("path", folderPath);
+        } else {
+            builder.add("folderid", String.valueOf(RemoteFolder.ROOT_FOLDER_ID));
+        }
+        RequestBody body = builder.build();
 
         return newRequest()
                 .url(API_BASE_URL.newBuilder()
@@ -884,8 +1039,8 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
     }
 
     @Override
-    public RealApiServiceBuilderV2 newBuilder() {
-        return new RealApiServiceBuilderV2(httpClient, callbackExecutor, progressCallbackThresholdBytes, authenticator);
+    public RealApiServiceBuilder newBuilder() {
+        return new RealApiServiceBuilder(httpClient, callbackExecutor, progressCallbackThresholdBytes, authenticator);
     }
 
     @Override
@@ -959,6 +1114,26 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
                 .build();
     }
 
+    private Request createListFolderRequest(String path, boolean recursive) {
+
+        HttpUrl.Builder urlBuilder = API_BASE_URL.newBuilder()
+                .addPathSegment("listfolder")
+                .addQueryParameter("noshares", String.valueOf(1));
+        if (path != null) {
+            urlBuilder.addQueryParameter("path", path);
+        } else {
+            urlBuilder.addQueryParameter("folderid", String.valueOf(RemoteFolder.ROOT_FOLDER_ID));
+        }
+        if (recursive) {
+            urlBuilder.addEncodedQueryParameter("recursive", String.valueOf(1));
+        }
+
+        return newRequest()
+                .url(urlBuilder.build())
+                .get()
+                .build();
+    }
+
     private <T> Call<T> newCall(Request request, ResponseAdapter<T> adapter) {
         Call<T> apiCall = new OkHttpCall<>(httpClient.newCall(request), adapter);
         if (callbackExecutor != null) {
@@ -990,7 +1165,7 @@ class RealApiClientV2 extends RealApiClient implements ApiClientV2 {
             try {
                 return gson.fromJson(reader, bodyType);
             } catch (JsonSyntaxException e) {
-                throw new IOException("Malformed JSON response.", e);
+                throw new JSONParseException("Malformed JSON response.", e);
             } finally {
                 closeQuietly(reader);
             }

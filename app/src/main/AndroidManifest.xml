@@ -81,7 +81,8 @@ Service handling Google Sign-In user revocation. For apps that do not integrate 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.PortActivity" />
+        <activity android:name=".main.PortActivity"/>
+        <activity android:name="com.pcloud.sdk.AuthorizationActivity"/>
         <activity android:name=".revision.RevisionPastListActivity" />
         <activity android:name=".note.NoteListActivity" />
 

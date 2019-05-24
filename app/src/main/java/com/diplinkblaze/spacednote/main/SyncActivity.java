@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,7 +20,6 @@ import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.BaseActivity;
 import com.dropbox.core.android.Auth;
 import com.pcloud.sdk.AuthorizationActivity;
-import com.pcloud.sdk.AuthorizationResult;
 
 import data.database.file.FileOpenHelper;
 import data.drive.Authentication;
@@ -117,7 +117,7 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == SIGN_IN_REQUEST_DRIVE) {
             if (resultCode == RESULT_OK) {
                 startService(SyncService.getSyncRequestIntent(this));
@@ -127,13 +127,14 @@ public class SyncActivity extends AppCompatActivity {
         } else if (requestCode == SIGN_IN_REQUEST_PCLOUD) {
             if (resultCode == RESULT_OK) {
 
-                //data.pcloud.Authentication.saveToken(this, data); TODO
+
+                data.pcloud.Authentication.saveToken(this, intent);
                 startService(SyncService.getSyncRequestIntent(this));
             }
             isSignInFlow = false;
             updateViews();
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     private void initializeViews() {

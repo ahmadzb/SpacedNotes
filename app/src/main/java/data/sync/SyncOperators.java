@@ -5,6 +5,7 @@ import android.content.Context;
 import data.drive.DriveOperator;
 import data.dropbox.DropboxOperator;
 import data.model.existence.Existence;
+import data.pcloud.PCloudOperator;
 import data.preference.SyncPreferences;
 
 /**
@@ -22,9 +23,9 @@ public class SyncOperators {
         } else if (SyncPreferences.isCurrentSyncOperatorDropbox(context) &&
                 !(currentOperator instanceof DropboxOperator)) {
             currentOperator = new DropboxOperator();
-        } else if (SyncPreferences.isCurrentSyncOperatorDropbox(context) &&
-                !(currentOperator instanceof DropboxOperator)) {
-            currentOperator = new DropboxOperator();
+        } else if (SyncPreferences.isCurrentSyncOperatorPCloud(context) &&
+                !(currentOperator instanceof PCloudOperator)) {
+            currentOperator = new PCloudOperator();
         }
 
         return currentOperator;
@@ -39,6 +40,8 @@ public class SyncOperators {
             return Existence.EXISTENCE_FLAG_DRIVE;
         else if (operator instanceof DropboxOperator) {
             return Existence.EXISTENCE_FLAG_DROP_BOX;
+        } else if (operator instanceof PCloudOperator) {
+            return Existence.EXISTENCE_FLAG_PCLOUD;
         } else
             throw new RuntimeException("Operator is not recognized");
     }

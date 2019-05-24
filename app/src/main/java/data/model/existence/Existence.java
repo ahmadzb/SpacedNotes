@@ -23,6 +23,7 @@ public class Existence {
 
     public static final int EXISTENCE_FLAG_DRIVE = FileContract.Existence.EXISTENCE_FLAG_DRIVE;
     public static final int EXISTENCE_FLAG_DROP_BOX = FileContract.Existence.EXISTENCE_FLAG_DROP_BOX;
+    public static final int EXISTENCE_FLAG_PCLOUD = FileContract.Existence.EXISTENCE_FLAG_PCLOUD;
 
     private long pattern;
     private int type;
