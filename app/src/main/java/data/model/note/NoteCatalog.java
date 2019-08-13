@@ -53,6 +53,10 @@ public class NoteCatalog {
         return NoteOperations.getNotesByLabel(labelId, readableDb, withRevisionFuture);
     }
 
+    public static ArrayList<Note> getNotesBySearchKeyword(String keyword, SQLiteDatabase readableDb, boolean withRevisionFuture) {
+        return NoteOperations.getNotesBySearchKeyword(keyword, readableDb, withRevisionFuture);
+    }
+
     public static TreeMap<Long, Integer> getNotesCountByLabelMap(SQLiteDatabase readableDb) {
         return NoteOperations.getNotesCountByLabelMap(readableDb);
     }

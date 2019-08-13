@@ -3,12 +3,6 @@ package data.pcloud;
 import android.content.Context;
 import android.content.Intent;
 
-
-import com.pcloud.sdk.ApiClient;
-import com.pcloud.sdk.Authenticators;
-import com.pcloud.sdk.PCloudSdk;
-import com.pcloud.sdk.AuthorizationActivity;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,16 +19,8 @@ public class Authentication {
     private static SignIn signIn;
 
     public static boolean saveToken(Context context, Intent data) {
-        String accessToken = null;
-        if (data.getExtras() != null && data.getExtras().containsKey(AuthorizationActivity.KEY_ACCESS_TOKEN)) {
-            accessToken = data.getStringExtra(AuthorizationActivity.KEY_ACCESS_TOKEN);
-        }
-
-        if (accessToken != null) {
-            SyncPreferences.PCloud.setToken(accessToken, context);
-            return true;
-        }
-        return false;
+        //TODO
+        throw new RuntimeException("Not implemented");
     }
 
     public static SignIn getSignIn(final Context context) throws SignInException {
@@ -46,8 +32,8 @@ public class Authentication {
                     throw new SignInException();
                 }
                 signIn = new SignIn();
-                signIn.client = PCloudSdk.newClientBuilder()
-                        .authenticator(Authenticators.newOAuthAuthenticator(accessToken)).create();
+                //TODO
+                throw new RuntimeException("Not implemented");
             }
 
             return signIn;
@@ -58,16 +44,19 @@ public class Authentication {
 
     public static void signOut(Context context) throws SignInException  {
         SignIn signIn = getSignIn(context);
-        signIn.getClient().shutdown();
+        //TODO
+        throw new RuntimeException("Not implemented");
 
     }
 
 
     public static class SignIn {
 
-        private ApiClient client;
+        //TODO
+        private Object client;
 
-        public ApiClient getClient() {
+        //TODO
+        public Object getClient() {
             return client;
         }
 

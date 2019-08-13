@@ -1,27 +1,24 @@
 package data.dropbox;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.DownloadErrorException;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.ListFolderError;
+import com.dropbox.core.v2.files.ListFolderErrorException;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
-import com.dropbox.core.v2.files.UploadErrorException;
 import com.dropbox.core.v2.files.WriteMode;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import data.preference.SyncPreferences;
 import data.sync.SignInException;
@@ -127,17 +124,22 @@ public class DropboxOperator implements SyncOperator {
             // Get files and folder metadata from Dropbox root directory
             result = client.files().listFolder(getDropboxPath(parentDir));
             while (true) {
-                for (Metadata metadata : result.getEntries()) {
-                    System.out.println(metadata.getPathLower());
-                }
-
                 if (!result.getHasMore()) {
                     break;
                 }
 
                 result = client.files().listFolderContinue(result.getCursor());
             }
-        } catch (Exception e) {
+        } catch (ListFolderErrorException e) {
+            if (e.errorValue.tag() == ListFolderError.Tag.PATH) {
+                e.printStackTrace();
+                taskProgress.setStatus("Dropbox path: \"" + getDropboxPath(parentDir) + "\" doesn't exist");
+                return new ArrayList<SyncFile>();
+            } else {
+                e.printStackTrace();
+                throw new SyncFailureException();
+            }
+        } catch(Exception e) {
             e.printStackTrace();
             throw new SyncFailureException();
         }

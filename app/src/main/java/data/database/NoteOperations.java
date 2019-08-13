@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
@@ -112,6 +113,31 @@ public class NoteOperations {
                 " WHERE " + Contract.Note.deletedFull + " IS NULL" +
                 " AND " + Contract.LabelNote.labelId + " = " + labelId;
         Cursor cursor = readableDb.rawQuery(sql, null);
+        ArrayList<Note> notes = retrieveNotes(cursor, withRevisionFuture);
+        cursor.close();
+        return notes;
+    }
+
+    public static ArrayList<Note> getNotesBySearchKeyword(String keyword, SQLiteDatabase readableDb, boolean withRevisionFuture) {
+        if (keyword == null) return new ArrayList<>();
+
+        String sql = "SELECT " + Contract.Note.table + ".*" +
+                (withRevisionFuture? ", " + Contract.RevisionFuture.table + ".*" : "") +
+                " FROM " + Contract.Note.table + " INNER JOIN " + Contract.NoteData.table +
+                " ON " + Contract.Note.idFull + " = " + Contract.NoteData.noteIdFull +
+                (withRevisionFuture? " LEFT JOIN " + Contract.RevisionFuture.table +
+                        " ON " +  Contract.Note.idFull + " = " + Contract.RevisionFuture.noteIdFull : "") +
+                " WHERE " + Contract.Note.deletedFull + " IS NULL " +
+                " AND " + "((" + Contract.NoteData.patternFull + " = " + Element.PATTERN_TEXT_ITEM + " AND " +
+                "( LOWER( " + Contract.NoteData.data3Full + ") LIKE ? " +
+                " OR " + " LOWER( " + Contract.NoteData.data3Full + ") LIKE ? )" +
+                ") OR (" + Contract.NoteData.pattern + " = " + Element.PATTERN_LIST_ITEM + " AND " +
+                "( LOWER( " + Contract.NoteData.data3Full + ") LIKE ? " +
+                " OR " + " LOWER( " + Contract.NoteData.data3Full + ") LIKE ? )" + "))" +
+                " GROUP BY " + Contract.Note.idFull;
+        String like1 = keyword.toLowerCase() + "%";
+        String like2 = "% " + keyword.toLowerCase() + "%";
+        Cursor cursor = readableDb.rawQuery(sql, new String[] {like1, like2, like1, like2});
         ArrayList<Note> notes = retrieveNotes(cursor, withRevisionFuture);
         cursor.close();
         return notes;

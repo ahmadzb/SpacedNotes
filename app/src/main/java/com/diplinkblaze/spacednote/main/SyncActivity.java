@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.diplinkblaze.spacednote.R;
 import com.diplinkblaze.spacednote.contract.BaseActivity;
 import com.dropbox.core.android.Auth;
-import com.pcloud.sdk.AuthorizationActivity;
 
 import data.database.file.FileOpenHelper;
 import data.drive.Authentication;
@@ -251,8 +250,9 @@ public class SyncActivity extends AppCompatActivity {
         } else if (SyncOperators.getCurrentOperator(this) instanceof DropboxOperator) {
             Auth.startOAuth2Authentication(this, "4y76xyq70frs0yf");
         } else if (SyncOperators.getCurrentOperator(this) instanceof PCloudOperator) {
-            Intent intent = AuthorizationActivity.createIntent(this, "rNFJ52yGA75");
-            startActivityForResult(intent, SIGN_IN_REQUEST_PCLOUD);
+            //Intent intent = AuthorizationActivity.createIntent(this, "rNFJ52yGA75");
+            //startActivityForResult(intent, SIGN_IN_REQUEST_PCLOUD);
+            throw new RuntimeException("Not Implemented");
         }
         updateViews();
     }

@@ -24,6 +24,7 @@
     <string name="action_change_date">Change Date</string>
     <string name="action_change_time">Change Time</string>
     <string name="action_discard">Discard</string>
+    <string name="action_search">Search</string>
 
     <string name="title">Title</string>
     <string name="hint">Hint</string>

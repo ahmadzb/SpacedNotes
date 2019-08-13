@@ -248,6 +248,9 @@ public class MainActivity extends BaseActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_main_search) {
+            startActivity(SearchActivity.getIntent(this));
+        }
         //noinspection SimplifiableIfStatement
         //TODO
 

@@ -231,8 +231,13 @@ public class SyncOperations {
                 if (progress.isProgressCancelled()) throw new SyncCancelledException();
                 long profileId = existence.getProfile();
                 long pictureId = Existence.Pattern.Picture.getPictureId(existence.getPattern());
-                uploadRemotePicture(profileId, pictureId, context, progress);
-                ExistenceCatalog.setExistenceFlag(existence, existenceFlag, fileWritableDb, context);
+                boolean success = uploadRemotePicture(profileId, pictureId, context, progress);
+                if (success) {
+                    ExistenceCatalog.setExistenceFlag(existence, existenceFlag, fileWritableDb, context);
+                } else {
+                    progress.setStatus("local picture: profileId: " + profileId +
+                            ", pictureId: " + pictureId + " not found");
+                }
             }
         }
         for (Existence existence : downloadExistences) {
@@ -241,13 +246,16 @@ public class SyncOperations {
             long pictureId = Existence.Pattern.Picture.getPictureId(existence.getPattern());
             downloadRemotePicture(profileId, pictureId, context, progress);
         }
+
         if (PortOperations.getCurrentPortConnectionIfExists(context) != null) {
             for (Existence existence : deleteExistences) {
                 if (progress.isProgressCancelled()) throw new SyncCancelledException();
                 long profileId = existence.getProfile();
                 long pictureId = Existence.Pattern.Picture.getPictureId(existence.getPattern());
-                deleteRemotePicture(profileId, pictureId, context, progress);
-                ExistenceCatalog.removeExistenceFlag(existence, existenceFlag, fileWritableDb, context);
+                boolean success = deleteRemotePicture(profileId, pictureId, context, progress);
+                if (success) {
+                    ExistenceCatalog.removeExistenceFlag(existence, existenceFlag, fileWritableDb, context);
+                }
             }
         }
     }
@@ -360,21 +368,24 @@ public class SyncOperations {
                 "picture(profileId: " + profileId + ", pictureId: " + pictureId + ")");
     }
 
-    private static void uploadRemotePicture(long profileId, long pictureId, Context context, TaskProgress taskProgress)
+    private static boolean uploadRemotePicture(long profileId, long pictureId, Context context, TaskProgress taskProgress)
             throws SignInException, SyncFailureException {
         File pictureFile = Pictures.getPictureFile(profileId, pictureId);
         if (pictureFile.exists()) {
             SyncFile pictureSyncFile = SyncFileTranslator.getPicture(profileId, pictureId);
             SyncOperators.getCurrentOperator(context).insertFile(pictureFile, pictureSyncFile, context, taskProgress,
                     "picture(profileId: " + profileId + ", pictureId: " + pictureId + ")");
+            return true;
         }
+        return false;
     }
 
-    private static void deleteRemotePicture(long profileId, long pictureId, Context context, TaskProgress taskProgress)
+    private static boolean deleteRemotePicture(long profileId, long pictureId, Context context, TaskProgress taskProgress)
             throws SignInException, SyncFailureException {
         SyncFile pictureSyncFile = SyncFileTranslator.getPicture(profileId, pictureId);
         SyncOperators.getCurrentOperator(context).deleteFile(pictureSyncFile, context, taskProgress,
                 "picture(profileId: " + profileId + ", pictureId: " + pictureId + ")");
+        return true;
     }
 
     private static void downloadRemoteCapture(long captureId, long coc, Context context, TaskProgress taskProgress)

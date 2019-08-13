@@ -42,6 +42,43 @@ public class NoteSelectors {
         }
     }
 
+    public static class SearchNoteSelector extends NoteSelector {
+
+        private String keyword;
+
+        private SearchNoteSelector() {
+
+        }
+
+        public static SearchNoteSelector newInstance(String keyword) {
+            if (keyword == null)
+                throw new RuntimeException("Keyword may not be null!");
+            SearchNoteSelector instance = new SearchNoteSelector();
+            instance.keyword = keyword;
+            return instance;
+        }
+
+        @Override
+        protected ArrayList<Note> getNotes(Context context, SQLiteDatabase readableDb) {
+            ArrayList<Note> notes = NoteCatalog.getNotesBySearchKeyword(keyword, readableDb, true);
+            Collections.sort(notes, Note.createDateComparator());
+            return notes;
+        }
+
+        @Override
+        protected boolean shouldHighlightNote(Note note) {
+            int today = Representation.fromLocalDate(LocalDate.now());
+            return note.getRevisionFuture() != null && note.getRevisionFuture().getDueDate() <= today;
+        }
+
+        @Override
+        protected void onNoteNextRevisionClicked(Note note, SQLiteDatabase readableDb) {
+            RevisionFuture updatedRevisionFuture = RevisionCatalog.getRevisionFutureForNote(note, readableDb);
+            note.setRevisionFuture(updatedRevisionFuture);
+        }
+    }
+
+
     public static class LabelNoteSelector extends NoteSelector {
 
         private long labelId;
